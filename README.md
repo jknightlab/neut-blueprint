@@ -63,6 +63,12 @@ Table: Summary of length distribution for hypo- and hyper-methylated regions.
 
 Based on this we set the minimum overlap between regions from different individuals
 to 50bp. 
+
+```
+## Warning: Removed 252 rows containing non-finite values (stat_density).
+## Warning: Removed 45 rows containing non-finite values (stat_density).
+```
+
 ![plot of chunk overlapRegions](figure/overlapRegions.png) 
 
 # Appendix {-}
