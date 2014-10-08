@@ -43,21 +43,14 @@ that a lot of regions are quite short while some, especially for hyper-methylati
 are quite large. This is further emphasised by the following summary table.
 
 
---------------------------------------------------
    &nbsp;      hypo methylated   hyper methylated 
 ------------- ----------------- ------------------
   **Min.**            2                 1         
-
  **1st Qu.**         54                894        
-
  **Median**          157               2720       
-
   **Mean**           456               4770       
-
  **3rd Qu.**         529               6370       
-
   **Max.**          24700             130000      
---------------------------------------------------
 
 Table: Summary of length distribution for hypo- and hyper-methylated regions.
 
@@ -97,12 +90,12 @@ to 50bp.
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Biostrings_2.28.0  bitops_1.0-5       BSgenome_1.28.0   
-##  [4] codetools_0.2-8    colorspace_1.2-2   dichromat_2.0-0   
-##  [7] digest_0.6.3       evaluate_0.5.5     formatR_1.0       
-## [10] grid_3.0.1         gtable_0.1.2       labeling_0.1      
-## [13] MASS_7.3-26        munsell_0.4        plyr_1.8          
-## [16] proto_0.3-10       RColorBrewer_1.0-5 RCurl_1.95-4.3    
-## [19] reshape2_1.2.2     Rsamtools_1.12.4   scales_0.2.3      
-## [22] stats4_3.0.1       stringr_0.6.2      tools_3.0.1       
-## [25] XML_3.98-1.1       zlibbioc_1.6.0
+##  [4] colorspace_1.2-2   dichromat_2.0-0    digest_0.6.3      
+##  [7] evaluate_0.5.5     formatR_1.0        grid_3.0.1        
+## [10] gtable_0.1.2       labeling_0.1       MASS_7.3-26       
+## [13] munsell_0.4        plyr_1.8           proto_0.3-10      
+## [16] RColorBrewer_1.0-5 RCurl_1.95-4.3     reshape2_1.2.2    
+## [19] Rsamtools_1.12.4   scales_0.2.3       stats4_3.0.1      
+## [22] stringr_0.6.2      tools_3.0.1        XML_3.98-1.1      
+## [25] zlibbioc_1.6.0
 ```
