@@ -78,7 +78,7 @@ are quite large. This is further emphasised by the following summary table.
 ```{r lengthSummary, echo=FALSE}
 lengthSum <- tapply(regLen$length, regLen$type, summary)
 set.caption("Summary of length distribution for hypo- and hyper-methylated regions.")
-pander(do.call(cbind, regLen))
+pander(do.call(cbind, lengthSum))
 ```
 
 Based on this we set the minimum overlap between regions from different individuals
