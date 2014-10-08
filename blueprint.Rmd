@@ -28,7 +28,7 @@ This causes difficulties when trying to process them with BED file parsers.
 To remedy this the first five columns of each file are extracted prior
 to further analysis.
 
-```{r reformatBED, engine="bash", echo=FALSE}
+```{r reformatBED, engine="bash", echo=FALSE, cache=TRUE}
 for file in $(ls blueprint/WGBS_Neut/*.bed)
 do
 	cut -f1-5 $file > ${file}5
