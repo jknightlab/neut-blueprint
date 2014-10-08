@@ -81,9 +81,19 @@ set.caption("Summary of length distribution for hypo- and hyper-methylated regio
 pander(do.call(cbind, regLen))
 ```
 
-```{r overlapRegions, echo=FALSE, cache=TRUE}
-hypo <- Reduce(subsetByOverlaps, hypo)
-hyper <- Reduce(subsetByOverlaps, hyper)
+Based on this we set the minimum overlap between regions from different individuals
+to 50bp. 
+```{r overlapRegions, echo=FALSE, cache=TRUE, fig.caption="Length distribution of consensus regions."}
+hypo <- Reduce(subsetByOverlaps, hypo, minoverlap=50L)
+hyper <- Reduce(subsetByOverlaps, hyper, minoverlap=50L)
+regLen.comb <- data.frame(length=c(width(hypo), width(hyper)), 
+		type=c(rep("hypo methylated", length(hypo)), rep("hyper methylated", length(hyper))),
+		consensus=TRUE)
+regLen$consensus <- FALSE
+regLen.comb <- rbind(regLen.comb, regLen)
+ggplot(regLen, aes(x=length, y=..density.., colour=consensus, position="dodge")) + 
+		geom_histogram(binwidth=100) + facet_grid( ~ type) + 
+		theme_bw()
 ```
 
 # Appendix {-}
