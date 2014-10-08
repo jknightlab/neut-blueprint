@@ -55,8 +55,8 @@ in at least two neutrophil samplesand the region isn't hypo-methylated in any of
 the neutrophil samples. Hypo-methylated regions are defined accordingly.
 
 ```{r defineRegions, echo=FALSE, cache=TRUE}
-allHypo <- do.call(union, methGR[methDF$type == "hypo_meth"])
-allHyper <- do.call(union, methGR[methDF$type == "hyper_meth"])
+allHypo <- do.call(union, c(methGR[methDF$type == "hypo_meth"], ignore.strand=TRUE))
+allHyper <- do.call(union, c(methGR[methDF$type == "hyper_meth"], ignore.strand=TRUE))
 hypo <- lapply(methGR[methDF$type == "hypo_meth"], setdiff, allHyper)
 hyper <- lapply(methGR[methDF$type == "hyper_meth"], setdiff, allHypo)
 ```
