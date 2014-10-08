@@ -35,7 +35,7 @@ done
 ```
 
 ```{r loadWGBS, echo=FALSE}
-methFiles <- dir("blueprint/WGBS_Neut", ".bed", full.names=TRUE)
+methFiles <- dir("blueprint/WGBS_Neut", ".bed4", full.names=TRUE)
 splitNames <- strsplit(basename(methFiles), ".")
 sample <- sapply(splitNames, "[[", 1)
 type <- sapply(splitNames, "[[", 2)
