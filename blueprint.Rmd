@@ -91,9 +91,11 @@ regLen.comb <- data.frame(length=c(width(hypo), width(hyper)),
 		consensus=TRUE)
 regLen$consensus <- FALSE
 regLen.comb <- rbind(regLen.comb, regLen)
-ggplot(regLen, aes(x=length, y=..density.., fill=consensus)) + 
-		geom_histogram(binwidth=100, position="dodge") + facet_grid( ~ type) + 
-		theme_bw()
+regLen.comb$type <- factor(as.character(regLen.comb$type), 
+		levels=c("hypo methylated", "hyper methylated"))
+ggplot(regLen.comb, aes(x=length, colour=consensus), alpha=0.6) + 
+		geom_density() + facet_grid( ~ type) + 
+		theme_bw() + xlim(0,7e4) + ylim(0,0.00075)
 ```
 
 # Appendix {-}
