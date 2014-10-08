@@ -64,8 +64,8 @@ hyper <- lapply(methGR[methDF$type == "hyper_meth"], setdiff, allHypo)
 
 ```{r regionLength, echo=FALSE, fig.cap="Length distribution of hyper- and hypo-methylated regions"}
 regLen <- list()
-regLen$hypo <- data.frame(length=unlist(lapply(hypo, width), type="hypo methylated")
-regLen$hyper <- data.frame(length=unlist(lapply(hyper, width), type="hyper methylated")
+regLen$hypo <- data.frame(length=unlist(lapply(hypo, width)), type="hypo methylated")
+regLen$hyper <- data.frame(length=unlist(lapply(hyper, width)), type="hyper methylated")
 regLen <- rbind(regLen$hypo, regLen$hyper)
 ggplot(regLen, aes(x=length)) + geom_histogram() + facet( ~ type) + theme_bw()
 ```
