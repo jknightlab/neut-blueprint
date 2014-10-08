@@ -38,7 +38,7 @@ The re-formatted BED files are imported into R for further processing with
 Bioconductor. 
 
 ```{r loadWGBS, echo=FALSE, cache=TRUE}
-methFiles <- dir("blueprint/WGBS_Neut", ".bed4", full.names=TRUE)
+methFiles <- dir("blueprint/WGBS_Neut", ".bed5", full.names=TRUE)
 splitNames <- strsplit(basename(methFiles), ".")
 sample <- sapply(splitNames, "[[", 1)
 type <- sapply(splitNames, "[[", 2)
