@@ -43,26 +43,23 @@ that a lot of regions are quite short while some, especially for hyper-methylati
 are quite large. This is further emphasised by the following summary table.
 
 
-```
-## 
-## --------------------------------------------------
-##    &nbsp;      hypo methylated   hyper methylated 
-## ------------- ----------------- ------------------
-##   **Min.**            2                 1         
-## 
-##  **1st Qu.**         54                894        
-## 
-##  **Median**          157               2720       
-## 
-##   **Mean**           456               4770       
-## 
-##  **3rd Qu.**         529               6370       
-## 
-##   **Max.**          24700             130000      
-## --------------------------------------------------
-## 
-## Table: Summary of length distribution for hypo- and hyper-methylated regions.
-```
+--------------------------------------------------
+   &nbsp;      hypo methylated   hyper methylated 
+------------- ----------------- ------------------
+  **Min.**            2                 1         
+
+ **1st Qu.**         54                894        
+
+ **Median**          157               2720       
+
+  **Mean**           456               4770       
+
+ **3rd Qu.**         529               6370       
+
+  **Max.**          24700             130000      
+--------------------------------------------------
+
+Table: Summary of length distribution for hypo- and hyper-methylated regions.
 
 Based on this we set the minimum overlap between regions from different individuals
 to 50bp. 
