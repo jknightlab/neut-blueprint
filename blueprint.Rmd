@@ -42,7 +42,8 @@ splitNames <- strsplit(basename(methFiles), ".")
 sample <- sapply(splitNames, "[[", 1)
 type <- sapply(splitNames, "[[", 2)
 methDF <- data.frame(file=methFiles, sample=sample, type=type)
-methGR <- lapply(methFiles, import.bed, genome="hg19", asRangedData=FALSE)
+methGR <- do.call(GRangesList, 
+		lapply(methFiles, import.bed, genome="hg19", asRangedData=FALSE))
 ```
 
 ## Defining regions of hyper- and hypo-methylation
