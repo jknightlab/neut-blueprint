@@ -36,7 +36,7 @@ done
 The re-formatted BED files are imported into R for further processing with 
 Bioconductor. 
 
-```{r loadWGBS, echo=FALSE}
+```{r loadWGBS, echo=FALSE, cache=TRUE}
 methFiles <- dir("blueprint/WGBS_Neut", ".bed4", full.names=TRUE)
 splitNames <- strsplit(basename(methFiles), ".")
 sample <- sapply(splitNames, "[[", 1)
@@ -52,6 +52,13 @@ meets the criteria for hyper-methylation used in the analysis of the Blueprint c
 (average methylation of >0.75 and all CpGs in the regions have methylation >0.5)
 in at least two neutrophil samplesand the region isn't hypo-methylated in any of 
 the neutrophil samples. Hypo-methylated regions are defined accordingly.
+
+```{r defineRegions, echo=FALSE, cache=TRUE}
+allHypo <- do.call(union, methGR[methDF$type == "hypo_meth"])
+allHyper <- do.call(union, methGR[methDF$type == "hyper_meth"])
+hypo <- lapply(methGR[methDF$type == "hypo_meth"], setdiff, allHyper)
+hyper <- lapply(methGR[methDF$type == "hyper_meth"], setdiff, allHypo)
+```
 
 
 # Appendix {-}
