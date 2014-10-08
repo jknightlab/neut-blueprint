@@ -78,7 +78,7 @@ are quite large. This is further emphasised by the following summary table.
 ```{r lengthSummary, echo=FALSE, results="asis"}
 lengthSum <- tapply(regLen$length, regLen$type, summary)
 set.caption("Summary of length distribution for hypo- and hyper-methylated regions.")
-pander(do.call(cbind, lengthSum), style="simple")
+pander(do.call(cbind, lengthSum), style="rmarkdown")
 ```
 
 Based on this we set the minimum overlap between regions from different individuals
@@ -104,7 +104,7 @@ consistent with substantial overlaps between samples.
 ```{r lengthSummaryConsensus, echo=FALSE, results="asis"}
 lengthSum.comb <- with(subset(regLen.comb, consensus), tapply(length, type, summary))
 set.caption("Summary of length distribution for hypo- and hyper-methylated consensus regions.")
-pander(do.call(cbind, lengthSum.comb), style="simple")
+pander(do.call(cbind, lengthSum.comb), style="rmarkdown")
 ```
 
 # Appendix {-}
