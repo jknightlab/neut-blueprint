@@ -84,8 +84,8 @@ pander(do.call(cbind, lengthSum))
 Based on this we set the minimum overlap between regions from different individuals
 to 50bp. 
 ```{r overlapRegions, echo=FALSE, cache=TRUE, fig.caption="Length distribution of consensus regions."}
-hypo <- Reduce(subsetByOverlaps, hypo, minoverlap=50L)
-hyper <- Reduce(subsetByOverlaps, hyper, minoverlap=50L)
+hypo <- Reduce(function(x,y) subsetByOverlaps(x,y, minoverlap=50L), hypo)
+hyper <- Reduce(function(x,y) subsetByOverlaps(x,y, minoverlap=50L), hyper)
 regLen.comb <- data.frame(length=c(width(hypo), width(hyper)), 
 		type=c(rep("hypo methylated", length(hypo)), rep("hyper methylated", length(hyper))),
 		consensus=TRUE)
