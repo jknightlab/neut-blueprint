@@ -93,9 +93,18 @@ regLen$consensus <- FALSE
 regLen.comb <- rbind(regLen.comb, regLen)
 regLen.comb$type <- factor(as.character(regLen.comb$type), 
 		levels=c("hypo methylated", "hyper methylated"))
-ggplot(regLen.comb, aes(x=length, colour=consensus), alpha=0.6) + 
+ggplot(regLen.comb, aes(x=length, colour=consensus)) + 
 		geom_density() + facet_grid( ~ type) + 
 		theme_bw() + xlim(0,7e4) + ylim(0,0.00075)
+```
+
+While this excludes small regions the effect on the length of the remaining regions is limited,
+consistent with substantial overlaps between samples.
+
+```{r lengthSummaryConsensus, echo=FALSE, results="asis"}
+lengthSum.comb <- with(subset(regLen.comb, consensus), tapply(length, type, summary))
+set.caption("Summary of length distribution for hypo- and hyper-methylated consensus regions.")
+pander(do.call(cbind, lengthSum.comb), style="simple")
 ```
 
 # Appendix {-}
