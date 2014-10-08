@@ -75,7 +75,7 @@ Considering the length distribution of hyper- and hypo-methylated regions it is 
 that a lot of regions are quite short while some, especially for hyper-methylation,
 are quite large. This is further emphasised by the following summary table.
 
-```{r lengthSummary, echo=FALSE}
+```{r lengthSummary, echo=FALSE, results="asis"}
 lengthSum <- tapply(regLen$length, regLen$type, summary)
 set.caption("Summary of length distribution for hypo- and hyper-methylated regions.")
 pander(do.call(cbind, lengthSum))
