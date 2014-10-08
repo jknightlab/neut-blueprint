@@ -8,6 +8,7 @@ date: `r format(Sys.time(), "%a %d %b %Y")`
 library(GenomicRanges)
 library(rtracklayer)
 library(ggplot2)
+library(pander)
 
 opts_knit$set(root.dir = "/well/hill/Vivek/eQTL")
 opts_knit$set(autodep=TRUE)
@@ -68,6 +69,16 @@ regLen$hyper <- data.frame(length=unlist(lapply(hyper, width)), type="hyper meth
 regLen <- rbind(regLen$hypo, regLen$hyper)
 ggplot(regLen, aes(x=length, y=..density..)) + geom_histogram(binwidth=100) + facet_grid( ~ type) + 
 		theme_bw() + xlim(0,7e4) + ylim(0,0.00075)
+```
+
+Considering the length distribution of hyper- and hypo-methylated regions it is apparent
+that a lot of regions are quite short while some, especially for hyper-methylation,
+are quite large. This is further emphasised by the following summary table.
+
+```{r lengthSummary, echo=FALSE}
+lengthSum <- tapply(regLen$length, regLen$type, summary)
+set.caption("Summary of length distribution for hypo- and hyper-methylated regions.")
+pander(do.call(cbind, regLen))
 ```
 
 ```{r overlapRegions, echo=FALSE, cache=TRUE}
