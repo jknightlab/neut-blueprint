@@ -91,8 +91,8 @@ regLen.comb <- data.frame(length=c(width(hypo), width(hyper)),
 		consensus=TRUE)
 regLen$consensus <- FALSE
 regLen.comb <- rbind(regLen.comb, regLen)
-ggplot(regLen, aes(x=length, y=..density.., colour=consensus, position="dodge")) + 
-		geom_histogram(binwidth=100) + facet_grid( ~ type) + 
+ggplot(regLen, aes(x=length, y=..density.., fill=consensus)) + 
+		geom_histogram(binwidth=100, position="dodge") + facet_grid( ~ type) + 
 		theme_bw()
 ```
 
