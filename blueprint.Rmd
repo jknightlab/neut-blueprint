@@ -25,13 +25,13 @@ all neutrophil samples were obtained form the Blueprint ftp server.
 ## Data processing
 The BED files provided by Blueprint do not conform to the BED specification.
 This causes difficulties when trying to process them with BED file parsers.
-To remedy this the first four columns of each file are extracted prior
+To remedy this the first five columns of each file are extracted prior
 to further analysis.
 
 ```{r reformatBED, engine="bash", echo=FALSE}
 for file in $(ls blueprint/WGBS_Neut/*.bed)
 do
-	cut -f1-4 $file > ${file}4
+	cut -f1-5 $file > ${file}5
 done	
 ```
 The re-formatted BED files are imported into R for further processing with 
