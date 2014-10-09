@@ -135,11 +135,27 @@ pander(do.call(cbind, lengthSum.comb), style="rmarkdown")
 All significant eQTL are annotated with their distance to the closest hyper- and 
 hypo-methylated regions.
 
-```{r methDist, echo=FALSE}
+```{r methDist, echo=FALSE, cache=TRUE}
 mcols(cis) <- cbind(mcols(cis), hypo_meth=distanceToNearest(cis, hypo))
 mcols(cis) <- cbind(mcols(cis), hyper_meth=distanceToNearest(cis, hyper))
 mcols(trans) <- cbind(mcols(trans), hypo_meth=distanceToNearest(trans, hypo))
 mcols(trans) <- cbind(mcols(trans), hyper_meth=distanceToNearest(trans, hyper))
+```
+
+```{r methDistLeadPlot, echo=FALSE, fig.cap="Distance from lead SNP to nearest methylation island,"}
+cisLeads <- by(mcols(cis), mcols(cis)$gene, function(x) x$snp[which.min(x$pvalue)])
+transLeads <- by(mcols(trans), mcols(trans)$gene, function(x) x$snp[which.min(x$pvalue)])
+cisDF <- mcols(subset(cis, snp %in% cisLeads))
+cisDF <- data.frame(eQTL="cis", feature=c(rep("hypo methylation", nrow(cisDF)),
+			rep("hyper methylation", nrow(cisDF))), 
+		distance=c(cisDF$hypo_meth, cisDF$hyper_meth), stringsAsFactors=FALSE)
+cisDF <- mcols(subset(cis, snp %in% cisLeads))
+transDF <- data.frame(eQTL="trans", feature=c(rep("hypo methylation", nrow(transDF)),
+			rep("hyper methylation", nrow(transDF))), 
+		distance=c(transDF$hypo_meth, transDF$hyper_meth), stringsAsFactors=FALSE)
+methDistDF <- rbind(cisDF, transDF)
+ggplot(methDistDF, aes(x=distance)) + geom_density() + facet_grid(eQTL ~ feature) +
+		theme_bw() 
 ```
 
 # Appendix {-}
