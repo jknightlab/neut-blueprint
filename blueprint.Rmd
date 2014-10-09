@@ -152,7 +152,7 @@ cisDF <- mcols(subset(cis, snp %in% cisLeads))
 cisDF <- data.frame(eQTL="cis", feature=c(rep("hypo methylation", nrow(cisDF)),
 			rep("hyper methylation", nrow(cisDF))), 
 		distance=c(cisDF$hypo_meth, cisDF$hyper_meth), stringsAsFactors=FALSE)
-cisDF <- mcols(subset(cis, snp %in% cisLeads))
+transDF <- mcols(subset(trans, snp %in% transLeads))
 transDF <- data.frame(eQTL="trans", feature=c(rep("hypo methylation", nrow(transDF)),
 			rep("hyper methylation", nrow(transDF))), 
 		distance=c(transDF$hypo_meth, transDF$hyper_meth), stringsAsFactors=FALSE)
