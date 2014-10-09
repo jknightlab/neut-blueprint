@@ -137,11 +137,11 @@ hypo-methylated regions.
 ```{r methDist, echo=FALSE, cache=TRUE}
 metaCis <- mcols(cis)
 metaCis$hypo_meth <- mcols(distanceToNearest(cis, hypo))$distance
-metaCis$hyper_meth <- hyper_meth=mcols(distanceToNearest(cis, hyper))$distance
+metaCis$hyper_meth <- mcols(distanceToNearest(cis, hyper))$distance
 mcols(cis) <- metaCis
 metaTrans <- mcols(trans)
 metaTrans$hypo_meth <- mcols(distanceToNearest(trans, hypo))$distance
-metaTrans$hyper_meth <- hyper_meth=mcols(distanceToNearest(trans, hyper))$distance
+metaTrans$hyper_meth <- mcols(distanceToNearest(trans, hyper))$distance
 mcols(trans) <- metaTrans
 ```
 
