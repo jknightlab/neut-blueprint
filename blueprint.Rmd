@@ -158,7 +158,7 @@ transDF <- data.frame(eQTL="trans", feature=c(rep("hypo methylation", nrow(trans
 		distance=c(transDF$hypo_meth, transDF$hyper_meth), stringsAsFactors=FALSE)
 methDistDF <- rbind(cisDF, transDF)
 ggplot(methDistDF, aes(x=distance)) + geom_density() + facet_grid(eQTL ~ feature) +
-		theme_bw() 
+		theme_bw() + scale_x_log10()
 ```
 
 # Appendix {-}
