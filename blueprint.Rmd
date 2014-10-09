@@ -36,12 +36,12 @@ cis <- merge(snppos, subset(me$cis$eqtls, FDR < 0.05), by.x="snp", by.y="snps")
 cis <- with(cis, GRanges(seqnames=Rle(paste0("chr", chrm_snp)), 
 		ranges=IRanges(start=pos, width=1),
 		snp=snp, gene=gene, statistic=statistic, pvalue=pvalue,
-		FDR=fdr, beta=beta))
+		FDR=FDR, beta=beta))
 trans <- merge(snppos, subset(me$trans$eqtls, FDR < 0.05), by.x="snp", by.y="snps")
 trans <- with(trans, GRanges(seqnames=Rle(paste0("chr", chrm_snp)), 
 		ranges=IRanges(start=pos, width=1),
 		snp=snp, gene=gene, statistic=statistic, pvalue=pvalue,
-		FDR=fdr, beta=beta))
+		FDR=FDR, beta=beta))
 
 rm(me)
 ```
