@@ -93,6 +93,14 @@ hypo-methylated regions.
 
 
 
+
+```
+## Warning: Removed 1868 rows containing non-finite values (stat_density).
+## Warning: Removed 181 rows containing non-finite values (stat_density).
+## Warning: Removed 18 rows containing non-finite values (stat_density).
+## Warning: Removed 2 rows containing non-finite values (stat_density).
+```
+
 ![Distance from lead SNP to nearest methylation island,](figure/methDistLeadPlot.png) 
 
 # Appendix {-}
