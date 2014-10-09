@@ -136,10 +136,10 @@ All significant eQTL are annotated with their distance to the closest hyper- and
 hypo-methylated regions.
 
 ```{r methDist, echo=FALSE, cache=TRUE}
-mcols(cis) <- cbind(mcols(cis), hypo_meth=distanceToNearest(cis, hypo))
-mcols(cis) <- cbind(mcols(cis), hyper_meth=distanceToNearest(cis, hyper))
-mcols(trans) <- cbind(mcols(trans), hypo_meth=distanceToNearest(trans, hypo))
-mcols(trans) <- cbind(mcols(trans), hyper_meth=distanceToNearest(trans, hyper))
+mcols(cis) <- cbind(mcols(cis), hypo_meth=mcols(distanceToNearest(cis, hypo))$distance)
+mcols(cis) <- cbind(mcols(cis), hyper_meth=mcols(distanceToNearest(cis, hyper))$distance)
+mcols(trans) <- cbind(mcols(trans), hypo_meth=mcols(distanceToNearest(trans, hypo))$distance)
+mcols(trans) <- cbind(mcols(trans), hyper_meth=mcols(distanceToNearest(trans, hyper))$distance)
 ```
 
 ```{r methDistLeadPlot, echo=FALSE, fig.cap="Distance from lead SNP to nearest methylation island,"}
