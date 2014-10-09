@@ -6,7 +6,6 @@ date: `r format(Sys.time(), "%a %d %b %Y")`
 
 ```{r setup, include=FALSE}
 library(GenomicRanges)
-library(rtracklayer)
 library(ggplot2)
 library(pander)
 
@@ -68,7 +67,7 @@ splitNames <- strsplit(basename(methFiles), ".", fixed=TRUE)
 sample <- sapply(splitNames, "[[", 1)
 type <- sapply(splitNames, "[[", 2)
 methDF <- data.frame(file=methFiles, sample=sample, type=type)
-methGR <-lapply(methFiles, import.bed, genome="hg19", asRangedData=FALSE)
+methGR <-lapply(methFiles, rtracklayer::import.bed, genome="hg19", asRangedData=FALSE)
 ```
 
 ## Defining regions of hyper- and hypo-methylation
