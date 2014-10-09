@@ -131,6 +131,17 @@ set.caption("Summary of length distribution for hypo- and hyper-methylated conse
 pander(do.call(cbind, lengthSum.comb), style="rmarkdown")
 ```
 
+## Annotating eQTL
+All significant eQTL are annotated with their distance to the closest hyper- and 
+hypo-methylated regions.
+
+```{r methDist, echo=FALSE}
+mcols(cis) <- cbind(mcols(cis), hypo_meth=distanceToNearest(cis, hypo))
+mcols(cis) <- cbind(mcols(cis), hyper_meth=distanceToNearest(cis, hyper))
+mcols(trans) <- cbind(mcols(trans), hypo_meth=distanceToNearest(trans, hypo))
+mcols(trans) <- cbind(mcols(trans), hyper_meth=distanceToNearest(trans, hyper))
+```
+
 # Appendix {-}
 ## Session Info
 ```{r sessionInfo, echo=FALSE}
