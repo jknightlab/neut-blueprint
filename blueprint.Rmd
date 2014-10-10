@@ -53,7 +53,7 @@ by considering the distance between the features and all tested SNPs.
 
 ```{r loadSNPs, cache=TRUE}
 allSNPs <- read.table("Neut/ImputedGeno4QTL_140130.txt", header=TRUE, sep="\t", nrows=2L)
-colCount <- ncol(snps)
+colCount <- ncol(allSNPs)
 allSNPs <- read.table("Neut/ImputedGeno4QTL_140130.txt", header=TRUE, sep="\t",
 		colClasses=c("character", rep("NULL", colCount-1)))
 names(allSNPs) <- "snp"
