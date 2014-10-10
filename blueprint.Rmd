@@ -247,7 +247,11 @@ set.caption(paste0("2-sample test for equality of proportions with continuity co
 pander(propTest$hyper$cis, style="rmarkdown")
 ```
  
-
+ The distribution of distances paint a similar picture. There is a pronunced
+ shift in the location of eSNPs towards hypo-sensitive regions when compared
+ to the distribution of all imputed SNPs. The difference observed in the distance
+ from hyper-sensitive sites on the other hand is very small.
+ 
 ```{r methDistLeadPlot, echo=FALSE, warning=FALSE, fig.cap="Distance from lead SNP to nearest methylation island"}
 ggplot(methDistDF, aes(x=distance, colour=eQTL)) + geom_density() + facet_grid( ~ feature) +
 		theme_bw() + scale_x_log10()
