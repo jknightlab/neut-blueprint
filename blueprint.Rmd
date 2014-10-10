@@ -7,6 +7,7 @@ date: `r format(Sys.time(), "%a %d %b %Y")`
 ```{r setup, include=FALSE}
 library(GenomicRanges)
 library(ggplot2)
+library(scales)
 library(pander)
 
 opts_knit$set(root.dir = "/well/hill/Vivek/eQTL")
