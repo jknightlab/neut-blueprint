@@ -51,7 +51,7 @@ To be able to assess the significance of the proximity between eSNPs and
 features of interest we also generate the corresponding background distributions
 by considering the distance between the features and all tested SNPs.
 
-```{r loadSNPs, cache=TRUE}
+```{r loadSNPs, echo=FALSE, cache=TRUE}
 allSNPs <- read.table("Neut/ImputedGeno4QTL_140130.txt", header=FALSE, skip=1, sep="\t", nrows=2L)
 colCount <- ncol(allSNPs)
 allSNPs <- read.table("Neut/ImputedGeno4QTL_140130.txt", header=FALSE, skip=1, sep="\t",
@@ -154,7 +154,7 @@ pander(do.call(cbind, lengthSum.comb), style="rmarkdown")
 All significant eQTL are annotated with their distance to the closest hyper- and 
 hypo-methylated regions.
 
-```{r methDist, cache=TRUE}
+```{r methDist, echo=FALSE, cache=TRUE}
 metaAll <- mcols(allSNPs)
 metaAll$hypo_meth <- mcols(distanceToNearest(allSNPs, hypo))$distance
 metaAll$hyper_meth <- mcols(distanceToNearest(allSNPs, hyper))$distance
@@ -176,7 +176,7 @@ overal distribution of distances to the closest methylation island the
 number of SNPs within islands, i.e. those with distance 0, are of
 particular interest.
 
-```{r methDistZero, fig.cap="Proportion of eSNPs contained within methylation islands"} 
+```{r methDistZero, echo=FALSE, fig.cap="Proportion of eSNPs contained within methylation islands"} 
 cisLeads <- by(mcols(cis), mcols(cis)$gene, function(x) x$snp[which.min(x$pvalue)])
 transLeads <- by(mcols(trans), mcols(trans)$gene, function(x) x$snp[which.min(x$pvalue)])
 cisDF <- mcols(subset(cis, snp %in% cisLeads))
@@ -198,7 +198,7 @@ ggplot(methDistDF, aes(x=eQTL, fill=contained)) + geom_bar(position="fill") +
 		theme_bw()
 ```
 
-```{r methDistLeadPlot, fig.cap="Distance from lead SNP to nearest methylation island"}
+```{r methDistLeadPlot, echo=FALSE, fig.cap="Distance from lead SNP to nearest methylation island"}
 ggplot(methDistDF, aes(x=distance, colour=feature)) + geom_density() + facet_grid( ~ eQTL) +
 		theme_bw() + scale_x_log10()
 ```
