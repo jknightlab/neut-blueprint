@@ -198,10 +198,62 @@ ggplot(methDistDF, aes(x=eQTL, fill=contained)) + geom_bar(position="fill") +
 		theme_bw()
 ```
 
+```{r methDistZeroTest, echo=FALSE, cache=TRUE}
+containedCount <- list()
+containedCount$hypo <- c(background=sum(subset(allDF, 
+				feature == "hypo methylation")$distance == 0),
+			cis=sum(subset(cisDF, feature == "hypo methylation")$distance == 0),
+			trans=sum(subset(transDF, feature == "hypo methylation")$distance == 0))
+containedCount$hyper <- c(background=sum(subset(allDF, 
+				feature == "hyper methylation")$distance == 0),
+			cis=sum(subset(cisDF, feature == "hyper methylation")$distance == 0),
+			trans=sum(subset(transDF, feature == "hyper methylation")$distance == 0))
+totalCount <- c(background=nrow(allDF), cis=nrow(cisDF), trans=nrow(transDF))
+propTest <- list()
+propTest$hypo <- list(cis=prop.test(containedCount$hypo[c("background","cis")], 
+			totalCount[c("background","cis")]), 
+		trans=prop.test(containedCount$hypo[c("background","trans")], 
+			totalCount[c("background","trans")]))
+propTest$hyper <- list(cis=prop.test(containedCount$hyper[c("background","cis")], 
+			totalCount[c("background","cis")]), 
+		trans=prop.test(containedCount$hyper[c("background","trans")], 
+			totalCount[c("background","trans")]))
+```
+The proportion of cis eSNPs located in hypo-methylated regions
+(`r containedCount$hypo["cis"]/totalCount["cis"]*100`%) is substantially
+higher than would be expected by chance 
+(only `r containedCount$hypo["background"]/totalCount["background"]*100`% 
+of imputed SNPs are located in hypo-methylated regions). The significance 
+of this difference is confirmed via a formal test for the equality of these
+proportions.
+
+```{r echo=FALSE, results="asis"}
+set.caption(paste0("2-sample test for equality of proportions with continuity correction: ",
+			paste(containedCount$hypo[c("background", "cis")], collapse=" and "), " out of ", 
+			paste(totalCount[c("background", "cis")], collapse=" and "), " respectively."))
+pander(propTest$hypo$cis, style="rmarkdown")
+```
+  
+For the much more common hyper-methylated sites the difference between eSNPs and
+background is less pronounced. Overall 
+`r containedCount$hyper["background"]/totalCount["background"]*100`% of imputed SNPs
+fall within a hyper-methylated region while only 
+`r containedCount$hyper["cis"]/totalCount["cis"]*100`% are located within one.
+
+```{r echo=FALSE, results="asis"}
+set.caption(paste0("2-sample test for equality of proportions with continuity correction: ",
+			paste(containedCount$hyper[c("background", "cis")], collapse=" and "), " out of ", 
+			paste(totalCount[c("background", "cis")], collapse=" and "), " respectively."))
+pander(propTest$hyper$cis, style="rmarkdown")
+```
+ 
+
 ```{r methDistLeadPlot, echo=FALSE, warning=FALSE, fig.cap="Distance from lead SNP to nearest methylation island"}
 ggplot(methDistDF, aes(x=distance, colour=eQTL)) + geom_density() + facet_grid( ~ feature) +
 		theme_bw() + scale_x_log10()
 ```
+
+
 
 # Appendix {-}
 ## Session Info
