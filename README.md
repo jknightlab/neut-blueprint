@@ -21,6 +21,12 @@ all peak eQTL.
 
 
 
+To be able to assess the significance of the proximity between eSNPs and
+features of interest we also generate the corresponding background distributions
+by considering the distance between the features and all tested SNPs.
+
+
+
 # Methylation data
 ## Data processing
 The BED files provided by Blueprint do not conform to the BED specification.
@@ -105,9 +111,11 @@ particular interest.
 
 
 ```
+## Warning: Removed 357808 rows containing non-finite values (stat_density).
 ## Warning: Removed 1868 rows containing non-finite values (stat_density).
-## Warning: Removed 181 rows containing non-finite values (stat_density).
 ## Warning: Removed 18 rows containing non-finite values (stat_density).
+## Warning: Removed 6933 rows containing non-finite values (stat_density).
+## Warning: Removed 181 rows containing non-finite values (stat_density).
 ## Warning: Removed 2 rows containing non-finite values (stat_density).
 ```
 
