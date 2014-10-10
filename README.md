@@ -1,7 +1,7 @@
 ---
 title: Annotating Neutrophil eQTL with Blueprint Data
 author: Peter Humburg
-date: Thu 09 Oct 2014
+date: Fri 10 Oct 2014
 ---
 
 
@@ -73,7 +73,10 @@ to 50bp.
 ![plot of chunk overlapRegions](figure/overlapRegions.png) 
 
 While this excludes small regions the effect on the length of the remaining regions is limited,
-consistent with substantial overlaps between samples.
+consistent with substantial overlaps between samples. A total of 
+39892 hypo- and
+422555 hyper-methylated
+regions remain after filtering. 
 
 
 |    &nbsp;     |  hypo methylated  |  hyper methylated  |
@@ -93,6 +96,13 @@ hypo-methylated regions.
 
 
 
+Considering the most significant SNP for each gene, in addition to the
+overal distribution of distances to the closest methylation island the
+number of SNPs within islands, i.e. those with distance 0, are of
+particular interest.
+
+![Proportion of eSNPs contained within methylation islands](figure/methDistZero.png) 
+
 
 ```
 ## Warning: Removed 1868 rows containing non-finite values (stat_density).
@@ -101,7 +111,7 @@ hypo-methylated regions.
 ## Warning: Removed 2 rows containing non-finite values (stat_density).
 ```
 
-![Distance from lead SNP to nearest methylation island,](figure/methDistLeadPlot.png) 
+![Distance from lead SNP to nearest methylation island](figure/methDistLeadPlot.png) 
 
 # Appendix {-}
 ## Session Info
@@ -123,14 +133,15 @@ hypo-methylated regions.
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] pander_0.3.8         ggplot2_0.9.3.1      GenomicRanges_1.12.5
-## [4] IRanges_1.18.4       BiocGenerics_0.6.0   knitr_1.6           
+## [1] pander_0.3.8         scales_0.2.3         ggplot2_0.9.3.1     
+## [4] GenomicRanges_1.12.5 IRanges_1.18.4       BiocGenerics_0.6.0  
+## [7] knitr_1.6           
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] colorspace_1.2-2   dichromat_2.0-0    digest_0.6.3      
 ##  [4] evaluate_0.5.5     formatR_1.0        grid_3.0.1        
 ##  [7] gtable_0.1.2       labeling_0.1       MASS_7.3-26       
 ## [10] munsell_0.4        plyr_1.8           proto_0.3-10      
-## [13] RColorBrewer_1.0-5 reshape2_1.2.2     scales_0.2.3      
-## [16] stats4_3.0.1       stringr_0.6.2      tools_3.0.1
+## [13] RColorBrewer_1.0-5 reshape2_1.2.2     stats4_3.0.1      
+## [16] stringr_0.6.2      tools_3.0.1
 ```
