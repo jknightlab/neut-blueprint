@@ -199,7 +199,7 @@ ggplot(methDistDF, aes(x=eQTL, fill=contained)) + geom_bar(position="fill") +
 ```
 
 ```{r methDistLeadPlot, echo=FALSE, fig.cap="Distance from lead SNP to nearest methylation island"}
-ggplot(methDistDF, aes(x=distance, colour=feature)) + geom_density() + facet_grid( ~ eQTL) +
+ggplot(methDistDF, aes(x=distance, colour=eQTL)) + geom_density() + facet_grid( ~ feature) +
 		theme_bw() + scale_x_log10()
 ```
 
