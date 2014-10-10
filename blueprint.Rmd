@@ -148,7 +148,12 @@ metaTrans$hyper_meth <- mcols(distanceToNearest(trans, hyper))$distance
 mcols(trans) <- metaTrans
 ```
 
-```{r methDistLeadPlot, echo=FALSE, fig.cap="Distance from lead SNP to nearest methylation island,"}
+Considering the most significant SNP for each gene, in addition to the
+overal distribution of distances to the closest methylation island the
+number of SNPs within islands, i.e. those with distance 0, are of
+particular interest.
+
+```{r methDistZero, echo=FALSE, fig.cap="Proportion of eSNPs contained within methylation islands"} 
 cisLeads <- by(mcols(cis), mcols(cis)$gene, function(x) x$snp[which.min(x$pvalue)])
 transLeads <- by(mcols(trans), mcols(trans)$gene, function(x) x$snp[which.min(x$pvalue)])
 cisDF <- mcols(subset(cis, snp %in% cisLeads))
@@ -160,6 +165,13 @@ transDF <- data.frame(eQTL="trans", feature=c(rep("hypo methylation", nrow(trans
 			rep("hyper methylation", nrow(transDF))), 
 		distance=c(transDF$hypo_meth, transDF$hyper_meth), stringsAsFactors=FALSE)
 methDistDF <- rbind(cisDF, transDF)
+methDistDF$contained <- methDistDF$distance == 0
+ggplot(methDistDF, aes(x=feature, fill=contained)) + geom_barplot(position="fill") + 
+		facet_grid(~ eQTL) + scale_y_continuous(labels=percent_format()) +
+		theme_bw()
+```
+
+```{r methDistLeadPlot, echo=FALSE, fig.cap="Distance from lead SNP to nearest methylation island,"}
 ggplot(methDistDF, aes(x=distance)) + geom_density() + facet_grid(eQTL ~ feature) +
 		theme_bw() + scale_x_log10()
 ```
