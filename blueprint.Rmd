@@ -154,11 +154,17 @@ pander(do.call(cbind, lengthSum.comb), style="rmarkdown")
 All significant eQTL are annotated with their distance to the closest hyper- and 
 hypo-methylated regions.
 
-```{r methDist, echo=FALSE, cache=TRUE}
+```{r methDist, cache=TRUE}
+metaAll <- mcols(allSNPs)
+metaAll$hypo_meth <- mcols(distanceToNearest(allSNPs, hypo))$distance
+metaAll$hyper_meth <- mcols(distanceToNearest(allSNPs, hyper))$distance
+mcols(allSNPs) <- metaAll
+
 metaCis <- mcols(cis)
 metaCis$hypo_meth <- mcols(distanceToNearest(cis, hypo))$distance
 metaCis$hyper_meth <- mcols(distanceToNearest(cis, hyper))$distance
 mcols(cis) <- metaCis
+
 metaTrans <- mcols(trans)
 metaTrans$hypo_meth <- mcols(distanceToNearest(trans, hypo))$distance
 metaTrans$hyper_meth <- mcols(distanceToNearest(trans, hyper))$distance
@@ -170,7 +176,7 @@ overal distribution of distances to the closest methylation island the
 number of SNPs within islands, i.e. those with distance 0, are of
 particular interest.
 
-```{r methDistZero, echo=FALSE, fig.cap="Proportion of eSNPs contained within methylation islands"} 
+```{r methDistZero, fig.cap="Proportion of eSNPs contained within methylation islands"} 
 cisLeads <- by(mcols(cis), mcols(cis)$gene, function(x) x$snp[which.min(x$pvalue)])
 transLeads <- by(mcols(trans), mcols(trans)$gene, function(x) x$snp[which.min(x$pvalue)])
 cisDF <- mcols(subset(cis, snp %in% cisLeads))
@@ -181,10 +187,14 @@ transDF <- mcols(subset(trans, snp %in% transLeads))
 transDF <- data.frame(eQTL="trans", feature=c(rep("hypo methylation", nrow(transDF)),
 			rep("hyper methylation", nrow(transDF))), 
 		distance=c(transDF$hypo_meth, transDF$hyper_meth), stringsAsFactors=FALSE)
-methDistDF <- rbind(cisDF, transDF)
+allDF <- data.frame(eQTL="background", feature=c(rep("hypo methylation", nrow(metaAll)),
+			rep("hyper methylation", nrow(metaAll))), 
+		distance=c(metaAll$hypo_meth, metaAll$hyper_meth), stringsAsFactors=FALSE)
+
+methDistDF <- rbind(cisDF, transDF, allDF)
 methDistDF$contained <- methDistDF$distance == 0
-ggplot(methDistDF, aes(x=feature, fill=contained)) + geom_bar(position="fill") + 
-		facet_grid(~ eQTL) + scale_y_continuous(labels=percent_format()) +
+ggplot(methDistDF, aes(x=eQTL, fill=contained)) + geom_bar(position="fill") + 
+		facet_grid(~ feature) + scale_y_continuous(labels=percent_format()) +
 		theme_bw()
 ```
 
