@@ -13,6 +13,7 @@ library(pander)
 opts_knit$set(root.dir = "/well/hill/Vivek/eQTL")
 opts_knit$set(autodep=TRUE)
 opts_knit$set(tidy=TRUE)
+opts_knit$set(echo=FALSE)
 ```
 
 # Introduction
@@ -44,6 +45,21 @@ trans <- with(trans, GRanges(seqnames=Rle(paste0("chr", chrm_snp)),
 		FDR=FDR, beta=beta))
 
 rm(me)
+```
+
+To be able to assess the significance of the proximity between eSNPs and
+features of interest we also generate the corresponding background distributions
+by considering the distance between the features and all tested SNPs.
+
+```{r loadSNPs, cache=TRUE}
+allSNPs <- read.table("Neut/ImputedGeno4QTL_140130.txt", header=TRUE, sep="\t", nrows=2L)
+colCount <- ncol(snps)
+allSNPs <- read.table("Neut/ImputedGeno4QTL_140130.txt", header=TRUE, sep="\t",
+		colClasses=c("character", rep("NULL", colCount-1)))
+names(allSNPs) <- "snp"
+allSNPs <- merge(snppos, allSNPs)
+allSNPs <- with(allSNPs, GRanges(seqnames=Rle(paste0("chr", chrm_snp)), 
+		ranges=IRanges(start=pos, width=1), snp=snp))
 ```
 
 # Methylation data
