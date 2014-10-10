@@ -154,7 +154,7 @@ pander(do.call(cbind, lengthSum.comb), style="rmarkdown")
 All significant eQTL are annotated with their distance to the closest hyper- and 
 hypo-methylated regions.
 
-```{r methDist, echo=FALSE, cache=TRUE}
+```{r methDist, echo=FALSE, cache=TRUE, dependson=c("loadSNPs", "overlapRegions", "loadEQTL")}
 metaAll <- mcols(allSNPs)
 metaAll$hypo_meth <- mcols(distanceToNearest(allSNPs, hypo))$distance
 metaAll$hyper_meth <- mcols(distanceToNearest(allSNPs, hyper))$distance
