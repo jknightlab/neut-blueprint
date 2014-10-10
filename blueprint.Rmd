@@ -52,9 +52,9 @@ features of interest we also generate the corresponding background distributions
 by considering the distance between the features and all tested SNPs.
 
 ```{r loadSNPs, cache=TRUE}
-allSNPs <- read.table("Neut/ImputedGeno4QTL_140130.txt", header=TRUE, sep="\t", nrows=2L)
+allSNPs <- read.table("Neut/ImputedGeno4QTL_140130.txt", header=FALSE, skip=1, sep="\t", nrows=2L)
 colCount <- ncol(snps)
-allSNPs <- read.table("Neut/ImputedGeno4QTL_140130.txt", header=TRUE, sep="\t",
+allSNPs <- read.table("Neut/ImputedGeno4QTL_140130.txt", header=FALSE, skip=1, sep="\t",
 		colClasses=c("character", rep("NULL", colCount-1)))
 names(allSNPs) <- "snp"
 allSNPs <- merge(snppos, allSNPs)
