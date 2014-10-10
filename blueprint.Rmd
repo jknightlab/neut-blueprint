@@ -142,7 +142,7 @@ While this excludes small regions the effect on the length of the remaining regi
 consistent with substantial overlaps between samples. A total of 
 `r nrow(subset(regLen.comb, consensus & type == "hypo methylated"))` hypo- and
 `r nrow(subset(regLen.comb, consensus & type == "hyper methylated"))` hyper-methylated
-regins remain after filtering. 
+regions remain after filtering. 
 
 ```{r lengthSummaryConsensus, echo=FALSE, results="asis"}
 lengthSum.comb <- with(subset(regLen.comb, consensus), tapply(length, type, summary))
