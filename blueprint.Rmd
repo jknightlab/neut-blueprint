@@ -191,7 +191,7 @@ allDF <- data.frame(eQTL="background", feature=c(rep("hypo methylation", nrow(me
 			rep("hyper methylation", nrow(metaAll))), 
 		distance=c(metaAll$hypo_meth, metaAll$hyper_meth), stringsAsFactors=FALSE)
 
-methDistDF <- rbind(cisDF, transDF, allDF)
+methDistDF <- rbind(cisDF, allDF)
 methDistDF$contained <- methDistDF$distance == 0
 ggplot(methDistDF, aes(x=eQTL, fill=contained)) + geom_bar(position="fill") + 
 		facet_grid(~ feature) + scale_y_continuous(labels=percent_format()) +
