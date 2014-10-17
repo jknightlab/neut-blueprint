@@ -1,7 +1,7 @@
 ---
 title: Annotating Neutrophil eQTL with Blueprint Data
 author: Peter Humburg
-date: Mon 13 Oct 2014
+date: Fri 17 Oct 2014
 ---
 
 
@@ -61,10 +61,10 @@ are quite large. This is further emphasised by the following summary table.
 |:-------------:|:-----------------:|:------------------:|
 |   **Min.**    |         2         |         1          |
 |  **1st Qu.**  |        54         |        894         |
-|  **Median**   |        157        |        2720        |
-|   **Mean**    |        456        |        4770        |
-|  **3rd Qu.**  |        529        |        6370        |
-|   **Max.**    |       24700       |       130000       |
+|  **Median**   |        157        |        2715        |
+|   **Mean**    |       455.6       |        4769        |
+|  **3rd Qu.**  |        529        |        6367        |
+|   **Max.**    |       24740       |       129600       |
 
 Table: Summary of length distribution for hypo- and hyper-methylated regions.
 
@@ -89,10 +89,10 @@ regions remain after filtering.
 |:-------------:|:-----------------:|:------------------:|
 |   **Min.**    |        50         |         50         |
 |  **1st Qu.**  |        250        |        1320        |
-|  **Median**   |        618        |        3360        |
-|   **Mean**    |        935        |        5470        |
-|  **3rd Qu.**  |       1310        |        7300        |
-|   **Max.**    |       22200       |       115000       |
+|  **Median**   |        618        |        3365        |
+|   **Mean**    |       935.3       |        5470        |
+|  **3rd Qu.**  |       1306        |        7297        |
+|   **Max.**    |       22190       |       115400       |
 
 Table: Summary of length distribution for hypo- and hyper-methylated consensus regions.
 
@@ -110,36 +110,36 @@ particular interest.
 ![Proportion of eSNPs contained within methylation islands](figure/methDistZero.png) 
 
 
-```
-## Warning: Chi-squared approximation may be incorrect
-```
 The proportion of cis eSNPs located in hypo-methylated regions
-(3.7366%) is substantially
+(3.7365813%) is substantially
 higher than would be expected by chance 
-(only 0.8285% 
-of imputed SNPs are located in hypo-methylated regions). The significance 
-of this difference is confirmed via a formal test for the equality of these
-proportions.
+(only 0.8285134% 
+of imputed SNPs are located in hypo-methylated regions). This corresponds
+to an odd's ratio of 4.6. 
+The significance of this difference is confirmed via Fisher's exact test.
 
 
-|  Test statistic  |  df  |      P value       |  Alternative hypothesis  |
-|:----------------:|:----:|:------------------:|:------------------------:|
-|      482.5       |  1   | _6.093e-107_ * * * |        two.sided         |
+|      P value      |  Alternative hypothesis  |
+|:-----------------:|:------------------------:|
+| _1.189e-59_ * * * |        two.sided         |
 
-Table: 2-sample test for equality of proportions with continuity correction: 6933 and 181 out of 836800 and 4844 respectively.
+Table: Fisher's Exact Test for Count Data: 6933 and 181 out of 836800 and 4844 respectively.
   
 For the much more common hyper-methylated sites the difference between eSNPs and
 background is less pronounced. Overall 
-42.7591% of imputed SNPs
+42.7590822% of imputed SNPs
 fall within a hyper-methylated region while only 
-38.5632% are located within one.
+38.5631709% are located within one.
+This corresponds to an odd's ratio of 
+0.84. 
+The significance of this difference is confirmed via Fisher's exact test.
 
 
-|  Test statistic  |  df  |      P value      |  Alternative hypothesis  |
-|:----------------:|:----:|:-----------------:|:------------------------:|
-|      34.48       |  1   | _4.314e-09_ * * * |        two.sided         |
+|      P value      |  Alternative hypothesis  |
+|:-----------------:|:------------------------:|
+| _3.594e-09_ * * * |        two.sided         |
 
-Table: 2-sample test for equality of proportions with continuity correction: 357808 and 1868 out of 836800 and 4844 respectively.
+Table: Fisher's Exact Test for Count Data: 357808 and 1868 out of 836800 and 4844 respectively.
  
  The distribution of distances paint a similar picture. There is a pronunced
  shift in the location of eSNPs towards hypo-sensitive regions when compared
@@ -154,31 +154,45 @@ Table: 2-sample test for equality of proportions with continuity correction: 357
 ## Session Info
 
 ```
-## R version 3.0.1 (2013-05-16)
-## Platform: x86_64-unknown-linux-gnu (64-bit)
+## R version 3.1.0 beta (2014-03-28 r65330)
+## Platform: x86_64-pc-linux-gnu (64-bit)
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_GB.UTF-8    LC_NUMERIC=C           
-##  [3] LC_TIME=en_GB           LC_COLLATE=en_GB.UTF-8 
-##  [5] LC_MONETARY=en_GB       LC_MESSAGES=en_GB.UTF-8
-##  [7] LC_PAPER=C              LC_NAME=C              
-##  [9] LC_ADDRESS=C            LC_TELEPHONE=C         
-## [11] LC_MEASUREMENT=en_GB    LC_IDENTIFICATION=C    
+##  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+##  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+##  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
 ## [1] parallel  methods   stats     graphics  grDevices utils     datasets 
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] pander_0.3.8         scales_0.2.3         ggplot2_0.9.3.1     
-## [4] GenomicRanges_1.12.5 IRanges_1.18.4       BiocGenerics_0.6.0  
-## [7] knitr_1.6           
+## [1] pander_0.3.8         scales_0.2.4         ggplot2_1.0.0       
+## [4] GenomicRanges_1.16.4 GenomeInfoDb_1.0.2   IRanges_1.22.10     
+## [7] BiocGenerics_0.10.0  knitr_1.6.14        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] colorspace_1.2-2   dichromat_2.0-0    digest_0.6.3      
-##  [4] evaluate_0.5.5     formatR_1.0        grid_3.0.1        
-##  [7] gtable_0.1.2       labeling_0.1       MASS_7.3-26       
-## [10] munsell_0.4        plyr_1.8           proto_0.3-10      
-## [13] RColorBrewer_1.0-5 reshape2_1.2.2     stats4_3.0.1      
-## [16] stringr_0.6.2      tools_3.0.1
+##  [1] base64enc_0.1-2         BatchJobs_1.4          
+##  [3] BBmisc_1.7              BiocParallel_0.6.1     
+##  [5] Biostrings_2.32.1       bitops_1.0-6           
+##  [7] brew_1.0-6              BSgenome_1.32.0        
+##  [9] checkmate_1.4           codetools_0.2-8        
+## [11] colorspace_1.2-4        DBI_0.3.1              
+## [13] digest_0.6.4            evaluate_0.5.5         
+## [15] fail_1.2                foreach_1.4.2          
+## [17] formatR_1.0             GenomicAlignments_1.0.6
+## [19] grid_3.1.0              gtable_0.1.2           
+## [21] iterators_1.0.7         labeling_0.3           
+## [23] MASS_7.3-31             munsell_0.4.2          
+## [25] plyr_1.8.1              proto_0.3-10           
+## [27] Rcpp_0.11.2             RCurl_1.95-4.3         
+## [29] reshape2_1.4            Rsamtools_1.16.1       
+## [31] RSQLite_0.11.4          rtracklayer_1.24.2     
+## [33] sendmailR_1.2-1         stats4_3.1.0           
+## [35] stringr_0.6.2           tools_3.1.0            
+## [37] XML_3.98-1.1            XVector_0.4.0          
+## [39] zlibbioc_1.10.0
 ```
