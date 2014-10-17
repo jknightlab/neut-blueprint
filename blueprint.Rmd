@@ -11,9 +11,9 @@ library(scales)
 library(pander)
 
 opts_knit$set(root.dir = "/well/hill/Vivek/eQTL")
-opts_knit$set(autodep=TRUE)
-opts_knit$set(tidy=TRUE)
-opts_knit$set(echo=FALSE)
+opts_chunk$set(autodep=TRUE)
+opts_chunk$set(tidy=TRUE)
+opts_chunk$set(echo=FALSE)
 ```
 
 # Introduction
