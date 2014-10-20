@@ -1,7 +1,7 @@
 ---
 title: Annotating Neutrophil eQTL with Blueprint Data
 author: Peter Humburg
-date: Fri 17 Oct 2014
+date: Mon 20 Oct 2014
 ---
 
 
@@ -154,7 +154,7 @@ Table: Fisher's Exact Test for Count Data: 357808 and 1868 out of 836800 and 484
 ## Session Info
 
 ```
-## R version 3.1.0 beta (2014-03-28 r65330)
+## R version 3.1.1 (2014-07-10)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## 
 ## locale:
@@ -175,24 +175,9 @@ Table: Fisher's Exact Test for Count Data: 357808 and 1868 out of 836800 and 484
 ## [7] BiocGenerics_0.10.0  knitr_1.6.14        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] base64enc_0.1-2         BatchJobs_1.4          
-##  [3] BBmisc_1.7              BiocParallel_0.6.1     
-##  [5] Biostrings_2.32.1       bitops_1.0-6           
-##  [7] brew_1.0-6              BSgenome_1.32.0        
-##  [9] checkmate_1.4           codetools_0.2-8        
-## [11] colorspace_1.2-4        DBI_0.3.1              
-## [13] digest_0.6.4            evaluate_0.5.5         
-## [15] fail_1.2                foreach_1.4.2          
-## [17] formatR_1.0             GenomicAlignments_1.0.6
-## [19] grid_3.1.0              gtable_0.1.2           
-## [21] iterators_1.0.7         labeling_0.3           
-## [23] MASS_7.3-31             munsell_0.4.2          
-## [25] plyr_1.8.1              proto_0.3-10           
-## [27] Rcpp_0.11.2             RCurl_1.95-4.3         
-## [29] reshape2_1.4            Rsamtools_1.16.1       
-## [31] RSQLite_0.11.4          rtracklayer_1.24.2     
-## [33] sendmailR_1.2-1         stats4_3.1.0           
-## [35] stringr_0.6.2           tools_3.1.0            
-## [37] XML_3.98-1.1            XVector_0.4.0          
-## [39] zlibbioc_1.10.0
+##  [1] codetools_0.2-9  colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5  
+##  [5] formatR_1.0      grid_3.1.1       gtable_0.1.2     labeling_0.3    
+##  [9] MASS_7.3-34      munsell_0.4.2    plyr_1.8.1       proto_0.3-10    
+## [13] Rcpp_0.11.2      reshape2_1.4     stats4_3.1.1     stringr_0.6.2   
+## [17] tools_3.1.1      XVector_0.4.0
 ```
