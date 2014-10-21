@@ -22,7 +22,7 @@ loadBlueprint <- function(files){
 	sample <- sapply(splitNames, "[[", 1)
 	type <- sapply(splitNames, "[[", 2)
 	df <- data.frame(file=files, sample=sample, type=type)
-	gr <-lapply(methFiles, rtracklayer::import.bed, genome="hg19", asRangedData=FALSE)
+	gr <-lapply(files, rtracklayer::import.bed, genome="hg19", asRangedData=FALSE)
 	list(meta=df, ranges=gr)
 }
 ```
@@ -276,6 +276,7 @@ pander(fisherTest$hyper$cis, style="rmarkdown")
 ggplot(methDistDF, aes(x=distance, colour=eQTL)) + geom_density() + facet_grid( ~ feature) +
 		theme_bw() + scale_x_log10()
 ```
+
 
 
 # Appendix {-}
