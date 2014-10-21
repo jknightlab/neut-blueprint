@@ -278,6 +278,10 @@ ggplot(methDistDF, aes(x=distance, colour=eQTL)) + geom_density() + facet_grid( 
 ```
 
 # Histone modification data
+The Blueprint consortium provides BED files with peak calls for a number of 
+histone modifications obtained from neutrophils. As with the methylation data
+the format of the BED files is non-standard and the first five columns have to be
+extracted prior to further processing.
 
 ```{r reformatBED2, engine="bash", echo=FALSE, cache=TRUE}
 for file in $(ls blueprint/ChIPSeq_Neut/*.bed.gz)
@@ -289,6 +293,13 @@ done
 
 ```{r loadChIP, echo=FALSE, cache=TRUE}
 chip <- loadBlueprint(dir("blueprint/ChIPSeq_Neut", ".bed5.gz", full.names=TRUE))
+```
+There are `r length(levels(chip$meta$type))` different histone modifications
+in the data set with varying numbers of samples.
+
+```{r sampleOverview, echo=FALSE, results="asis"}
+set.catpion(tabRef("Summary of available ChIP-seq samples"))
+pander(table(chip$meta$type), style="rmarkdown")
 ```
 
 
