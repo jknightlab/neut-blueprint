@@ -277,6 +277,19 @@ ggplot(methDistDF, aes(x=distance, colour=eQTL)) + geom_density() + facet_grid( 
 		theme_bw() + scale_x_log10()
 ```
 
+# Histone modification data
+
+```{r reformatBED2, engine="bash", echo=FALSE, cache=TRUE}
+for file in $(ls blueprint/ChIPSeq_Neut/*.bed.gz)
+do
+	file="blueprint/ChIPSeq_Neut/$(basename $file .gz)"
+	zcat $file | cut -f1-5 | gzip -c > ${file}5.gz
+done	
+```
+
+```{r loadChIP, echo=FALSE, cache=TRUE}
+chip <- loadBlueprint(dir("blueprint/ChIPSeq_Neut", ".bed5.gz", full.names=TRUE))
+```
 
 
 # Appendix {-}
