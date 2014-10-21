@@ -295,10 +295,10 @@ done
 chip <- loadBlueprint(dir("blueprint/ChIPSeq_Neut", ".bed5.gz", full.names=TRUE))
 ```
 There are `r length(levels(chip$meta$type))` different histone modifications
-in the data set with varying numbers of samples.
+in the data set with varying numbers of samples (see `r tabRef("sampleOverview")`).
 
-```{r sampleOverview, echo=FALSE, results="asis"}
-set.catpion(tabRef("Summary of available ChIP-seq samples"))
+```{r sampleOverviewTable, echo=FALSE, results="asis"}
+set.caption(tabRef("sampleOverview", "Summary of available ChIP-seq samples"))
 tmp <- as.matrix(table(chip$meta$type))
 colnames(tmp) <- "Samples"
 pander(tmp, style="rmarkdown")
