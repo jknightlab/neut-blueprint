@@ -294,7 +294,7 @@ chip <- loadBlueprint(dir("blueprint/ChIPSeq_Neut", ".bed5.gz", full.names=TRUE)
 
 # Appendix {-}
 ## Custom functions used
-```{r functions, eval=FALSE}
+```{r, ref.label="functions", eval=FALSE, echo=TRUE}
 ```
 
 ## Session Info
