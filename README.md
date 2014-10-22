@@ -151,6 +151,7 @@ Table: Fisher's Exact Test for Count Data: 357808 and 1868 out of 836800 and 484
 ![Distance from lead SNP to nearest methylation island](figure/methDistLeadPlot.png) 
 
 # Histone modification data
+## Data processing
 The Blueprint consortium provides BED files with peak calls for a number of 
 histone modifications obtained from neutrophils. As with the methylation data
 the format of the BED files is non-standard and the first five columns have to be
@@ -175,6 +176,10 @@ in the data set with varying numbers of samples (see Table 1).
 
 Table: **Table 1:** Summary of available ChIP-seq samples
 
+The single sample with H2A_Zac ChIP data is excluded from further analysis.
+
+
+
 
 
 Considering high level summaries of the data, the variation in peak calls between samples
@@ -188,7 +193,26 @@ consensus peak calls accross samples this may not be an issue.
 
 ![**Figure 2:** Median width of ChIP-seq peaks for each histone modification per sample.](figure/peakWidthPlot.png) 
 
+## Define location of histone modifications
+To obtain a set of peak calls for each histone modification that can be considered 
+a consensus across all available samples we only consider peaks that are supported
+by at least three samples.
 
+
+
+To assess the effect this has on the overall distribution of identified histone marks
+we compare the number and length of peaks obtained before and after consolidating peak 
+calls. As Figure 3 shows, this generally results in peak counts
+that appear to be a reasonable approximation of the average peak count for each
+histone modification. Similarly, the length of the resulting regions appears to be largely 
+consistent with the lengths observed in idividual samples. For some marks,
+H3K27me3 and H3K36me3 in particular, peaks seem to be noticibly shortened. While some
+shortening of peaks is expected, a less substantial change would be desireable.
+As far as annotating eQTL is concerded the effect is likely to be minor, however.
+
+![**Figure 3:** Difference in the number of peaks before and after consolidating samples](figure/comparePeakCountPlot.png) 
+
+![**Figure 4:** Difference in peak width before and after consolidating samples.](figure/compareWidthPlot.png) 
 # Appendix {-}
 ## Custom functions used
 
@@ -281,9 +305,9 @@ tabRef <- local({
 ## [7] BiocGenerics_0.10.0  knitr_1.6.14        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0     
-##  [5] grid_3.1.1       gtable_0.1.2     labeling_0.3     MASS_7.3-34     
-##  [9] munsell_0.4.2    plyr_1.8.1       proto_0.3-10     Rcpp_0.11.2     
-## [13] reshape2_1.4     stats4_3.1.1     stringr_0.6.2    tools_3.1.1     
-## [17] XVector_0.4.0
+##  [1] codetools_0.2-9  colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5  
+##  [5] formatR_1.0      grid_3.1.1       gtable_0.1.2     labeling_0.3    
+##  [9] MASS_7.3-34      munsell_0.4.2    plyr_1.8.1       proto_0.3-10    
+## [13] Rcpp_0.11.2      reshape2_1.4     stats4_3.1.1     stringr_0.6.2   
+## [17] tools_3.1.1      XVector_0.4.0
 ```
