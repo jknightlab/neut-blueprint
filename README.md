@@ -1,8 +1,10 @@
 ---
 title: Annotating Neutrophil eQTL with Blueprint Data
 author: Peter Humburg
-date: Mon 20 Oct 2014
+date: Tue 21 Oct 2014
 ---
+
+
 
 
 
@@ -148,9 +150,100 @@ Table: Fisher's Exact Test for Count Data: 357808 and 1868 out of 836800 and 484
  
 ![Distance from lead SNP to nearest methylation island](figure/methDistLeadPlot.png) 
 
+# Histone modification data
+The Blueprint consortium provides BED files with peak calls for a number of 
+histone modifications obtained from neutrophils. As with the methylation data
+the format of the BED files is non-standard and the first five columns have to be
+extracted prior to further processing.
+
+
+
+
+There are 7 different histone modifications
+in the data set with varying numbers of samples (see Table 1).
+
+
+|     &nbsp;     |  Samples  |
+|:--------------:|:---------:|
+|  **H2A_Zac**   |     1     |
+|  **H3K27ac**   |     7     |
+|  **H3K27me3**  |     6     |
+|  **H3K36me3**  |     7     |
+|  **H3K4me1**   |     7     |
+|  **H3K4me3**   |     7     |
+|  **H3K9me3**   |     7     |
+
+Table: **Table 1:** Summary of available ChIP-seq samples
 
 
 # Appendix {-}
+## Custom functions used
+
+```r
+loadBlueprint <- function(files) {
+    splitNames <- strsplit(basename(files), ".", fixed = TRUE)
+    sample <- sapply(splitNames, "[[", 1)
+    type <- sapply(splitNames, "[[", 2)
+    df <- data.frame(file = files, sample = sample, type = type)
+    gr <- lapply(files, rtracklayer::import.bed, genome = "hg19", asRangedData = FALSE)
+    list(meta = df, ranges = gr)
+}
+
+figRef <- local({
+    tag <- numeric()
+    created <- logical()
+    used <- logical()
+    function(label, caption, prefix = options("figcap.prefix"), sep = options("figcap.sep"), 
+        prefix.highlight = options("figcap.prefix.highlight")) {
+        i <- which(names(tag) == label)
+        if (length(i) == 0) {
+            i <- length(tag) + 1
+            tag <<- c(tag, i)
+            names(tag)[length(tag)] <<- label
+            used <<- c(used, FALSE)
+            names(used)[length(used)] <<- label
+            created <<- c(created, FALSE)
+            names(created)[length(created)] <<- label
+        }
+        if (!missing(caption)) {
+            created[label] <<- TRUE
+            paste0(prefix.highlight, prefix, " ", i, sep, prefix.highlight, 
+                " ", caption)
+        } else {
+            used[label] <<- TRUE
+            paste(prefix, tag[label])
+        }
+    }
+})
+
+tabRef <- local({
+    tag <- numeric()
+    created <- logical()
+    used <- logical()
+    function(label, caption, prefix = options("tabcap.prefix"), sep = options("tabcap.sep"), 
+        prefix.highlight = options("tabcap.prefix.highlight")) {
+        i <- which(names(tag) == label)
+        if (length(i) == 0) {
+            i <- length(tag) + 1
+            tag <<- c(tag, i)
+            names(tag)[length(tag)] <<- label
+            used <<- c(used, FALSE)
+            names(used)[length(used)] <<- label
+            created <<- c(created, FALSE)
+            names(created)[length(created)] <<- label
+        }
+        if (!missing(caption)) {
+            created[label] <<- TRUE
+            paste0(prefix.highlight, prefix, " ", i, sep, prefix.highlight, 
+                " ", caption)
+        } else {
+            used[label] <<- TRUE
+            paste(prefix, tag[label])
+        }
+    }
+})
+```
+
 ## Session Info
 
 ```
@@ -175,9 +268,9 @@ Table: Fisher's Exact Test for Count Data: 357808 and 1868 out of 836800 and 484
 ## [7] BiocGenerics_0.10.0  knitr_1.6.14        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] codetools_0.2-9  colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5  
-##  [5] formatR_1.0      grid_3.1.1       gtable_0.1.2     labeling_0.3    
-##  [9] MASS_7.3-34      munsell_0.4.2    plyr_1.8.1       proto_0.3-10    
-## [13] Rcpp_0.11.2      reshape2_1.4     stats4_3.1.1     stringr_0.6.2   
-## [17] tools_3.1.1      XVector_0.4.0
+##  [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0     
+##  [5] grid_3.1.1       gtable_0.1.2     labeling_0.3     MASS_7.3-34     
+##  [9] munsell_0.4.2    plyr_1.8.1       proto_0.3-10     Rcpp_0.11.2     
+## [13] reshape2_1.4     stats4_3.1.1     stringr_0.6.2    tools_3.1.1     
+## [17] XVector_0.4.0
 ```
