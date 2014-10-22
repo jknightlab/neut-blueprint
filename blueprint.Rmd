@@ -360,6 +360,32 @@ colnames(tmp) <- "Samples"
 pander(tmp, style="rmarkdown")
 ```
 
+```{r peakSummary, echo=FALSE, cache=TRUE}
+chip$meta$`peak count` <- sapply(chip$ranges, length)
+chip$meta$`median width` <- sapply(chip$ranges, function(x) median(width(x)))
+```
+
+Considering high level summaries of the data, the variation in peak calls between samples
+appears to be largely as one might expect (see `r figRef(""peakCount)` and 
+`r figRef(p"eakWidth")`). The only potential issue highlighted by these summaries
+is the consistently low number of peaks for sample *C001UYH1*. This could indicate
+a problem with identifying peaks in this sample. Since we will be considering
+consensus peak calls accross samples this may not be an issue. 
+
+```{r peakCountPlot, echo=FALSE, fig.cap=figRef("peakCount", "Number of ChIP-seq peaks called for each histone modification per sample.")}
+ggplot(chip$meta, aes(x=type, y=`peak count`, colour=sample)) + 
+		geom_point(size=2.5) + geom_line(aes(group=sample), linetype="dotted") + 
+		theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+		xlab("") + ylab("Nubmer of peaks")
+```
+
+```{r peakWidthPlot, echo=FALSE, fig.cap=figRef("peakWidth", "Median width of ChIP-seq peaks for each histone modification per sample.")}
+ggplot(chip$meta, aes(x=type, y=`median width`, colour=sample)) + 
+		geom_point(size=2.5) + geom_line(aes(group=sample), linetype="dotted") + 
+		theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+		xlab("") + ylab("Median peak width")
+```
+
 
 # Appendix {-}
 ## Custom functions used
