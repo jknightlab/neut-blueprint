@@ -366,7 +366,7 @@ The single sample with H2A_Zac ChIP data is excluded from further analysis.
 ```{r excludeZac, echo=FALSE, cache=TRUE}
 chip$ranges <- chip$ranges[chip$meta$type != "H2A_Zac"]
 chip$meta <- subset(chip$meta, type != "H2A_Zac")
-chip$meta$type <- factor(as.characher(chip$meta$type))
+chip$meta$type <- factor(as.character(chip$meta$type))
 ```
 
 ```{r peakSummary, echo=FALSE, cache=TRUE}
