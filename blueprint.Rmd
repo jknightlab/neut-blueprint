@@ -365,6 +365,7 @@ The single sample with H2A_Zac ChIP data is excluded from further analysis.
 ```{r excludeZac, echo=FALSE, cache=TRUE}
 chip$ranges <- chip$ranges[chip$meta$type != "H2A_Zac"]
 chip$meta <- subset(chip$meta, type != "H2A_Zac")
+chip$meta$type <- factor(as.characyer(chip$meta$type))
 ```
 
 ```{r peakSummary, echo=FALSE, cache=TRUE}
@@ -392,33 +393,6 @@ ggplot(chip$meta, aes(x=type, y=`median width`, colour=sample)) +
 		theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
 		xlab("") + ylab("Median peak width")
 ```
-
-## Define location of histone modifications
-To obtain a set of peak calls for each histone modification that can be considered 
-a consensus across all available samples we only consider peaks that are supported
-by at least three samples.
-
-```{r definePeaks, echo=FALSE, cache=TRUE}
-chipPeaks <- tapply(chip$ranges, chip$meta$type, 
-		function(x) slice(coverage(GRangesList(x)), lower=min(length(x), 3), 
-				rangesOnly=TRUE))
-chipPeaks <- lapply(chipPeaks, as, "GRanges")
-for(i in 1:length(chipPeaks)){
-	chip$meta$`consolidated count`[chip$meta$type == names(chipPeaks)[i]] <- length(chipPeaks[[i]])
-}
-```
-
-To assess the effect this has on the overall distribution of identified histone marks
-we compare the number and length of peaks obtained before and after consolidating peak 
-calls. As `r figRef("comparePeakCount")` shows, this generally results in peak counts
-that appear to be a reasonable approximation of the average peak count for each
-histone modification. 
-
-```{r comparePeakCountPlot, echo=FALSE, fig.cap=figRef("comparePeakCount", "Difference in the number of peaks before and after consolidating samples")}
-ggplot(chip$meta, aes(x=`peak count`, y=`consolidated count`, colour=sample, shape=type)) + 
-		geom_point() + geom_abline(intercept=0, slope=1) + theme_bw()
-```
-
 
 # Appendix {-}
 ## Custom functions used
