@@ -366,8 +366,8 @@ chip$meta$`median width` <- sapply(chip$ranges, function(x) median(width(x)))
 ```
 
 Considering high level summaries of the data, the variation in peak calls between samples
-appears to be largely as one might expect (see `r figRef(""peakCount)` and 
-`r figRef(p"eakWidth")`). The only potential issue highlighted by these summaries
+appears to be largely as one might expect (see `r figRef("peakCount")` and 
+`r figRef("peakWidth")`). The only potential issue highlighted by these summaries
 is the consistently low number of peaks for sample *C001UYH1*. This could indicate
 a problem with identifying peaks in this sample. Since we will be considering
 consensus peak calls accross samples this may not be an issue. 
