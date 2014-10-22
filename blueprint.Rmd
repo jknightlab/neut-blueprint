@@ -364,13 +364,13 @@ pander(tmp, style="rmarkdown")
 
 The single sample with H2A_Zac ChIP data is excluded from further analysis.
 
-```{r excludeZac, echo=FALSE, cache=TRUE}
+```{r excludeZac, echo=FALSE, cache=TRUE, dependson="loadChIP"}
 chip$ranges <- chip$ranges[chip$meta$type != "H2A_Zac"]
 chip$meta <- subset(chip$meta, type != "H2A_Zac")
 chip$meta$type <- factor(as.character(chip$meta$type))
 ```
 
-```{r peakSummary, echo=FALSE, cache=TRUE}
+```{r peakSummary, echo=FALSE, cache=TRUE, dependson="excludeZac"}
 chip$meta$`peak count` <- sapply(chip$ranges, length)
 chip$meta$`median width` <- sapply(chip$ranges, function(x) median(width(x)))
 ```
@@ -401,7 +401,7 @@ To obtain a set of peak calls for each histone modification that can be consider
 a consensus across all available samples we only consider peaks that are supported
 by at least three samples.
 
-```{r definePeaks, echo=FALSE, cache=TRUE}
+```{r definePeaks, echo=FALSE, cache=TRUE, dependson="excludeZac"}
 chipPeaks <- tapply(chip$ranges, chip$meta$type, 
 		function(x) slice(coverage(GRangesList(x)), lower=min(length(x), 3), 
 				rangesOnly=TRUE))
