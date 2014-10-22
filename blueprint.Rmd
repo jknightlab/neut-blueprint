@@ -334,6 +334,7 @@ ggplot(methDistDF, aes(x=distance, colour=eQTL)) + geom_density() + facet_grid( 
 ```
 
 # Histone modification data
+## Data processing
 The Blueprint consortium provides BED files with peak calls for a number of 
 histone modifications obtained from neutrophils. As with the methylation data
 the format of the BED files is non-standard and the first five columns have to be
@@ -394,6 +395,43 @@ ggplot(chip$meta, aes(x=type, y=`median width`, colour=sample)) +
 		xlab("") + ylab("Median peak width")
 ```
 
+## Define location of histone modifications
+To obtain a set of peak calls for each histone modification that can be considered 
+a consensus across all available samples we only consider peaks that are supported
+by at least three samples.
+
+```{r definePeaks, echo=FALSE, cache=TRUE}
+chipPeaks <- tapply(chip$ranges, chip$meta$type, 
+		function(x) slice(coverage(GRangesList(x)), lower=min(length(x), 3), 
+				rangesOnly=TRUE))
+chipPeaks <- lapply(chipPeaks, as, "GRanges")
+for(i in 1:length(chipPeaks)){
+	chip$meta$`consolidated count`[chip$meta$type == names(chipPeaks)[i]] <- 
+			length(chipPeaks[[i]])
+	chip$meta$`consolidated peak width`[chip$meta$type == names(chipPeaks)[i]] <-
+			median(width(chipPeaks[[i]]))
+}
+```
+
+To assess the effect this has on the overall distribution of identified histone marks
+we compare the number and length of peaks obtained before and after consolidating peak 
+calls. As `r figRef("comparePeakCount")` shows, this generally results in peak counts
+that appear to be a reasonable approximation of the average peak count for each
+histone modification. Similarly, the length of the resulting regions appears to be largely 
+consistent with the lengths observed in idividual samples. For some marks,
+H3K27me3 and H3K36me3 in particular, peaks seem to be noticibly shortened. While some
+shortening of peaks is expected, a less substantial change would be desireable.
+As far as annotating eQTL is concerded the effect is likely to be minor, however.
+
+```{r comparePeakCountPlot, echo=FALSE, fig.cap=figRef("comparePeakCount", "Difference in the number of peaks before and after consolidating samples")}
+ggplot(chip$meta, aes(x=`peak count`, y=`consolidated count`, colour=sample, shape=type)) + 
+		geom_point() + geom_abline(intercept=0, slope=1) + theme_bw()
+```
+
+```{r compareWidthPlot, echo=FALSE, fig.cap=figRef("compareWidth", "Difference in peak width before and after consolidating samples.")}
+ggplot(chip$meta, aes(x=`median width`, y=`consolidated peak width`, colour=sample, shape=type)) + 
+		geom_point() + geom_abline(intercept=0, slope=1) + theme_bw()
+```
 # Appendix {-}
 ## Custom functions used
 ```{r, ref.label="functions", eval=FALSE, echo=TRUE}
