@@ -1,7 +1,7 @@
 ---
 title: Annotating Neutrophil eQTL with Blueprint Data
 author: Peter Humburg
-date: Tue 21 Oct 2014
+date: Wed 22 Oct 2014
 ---
 
 
@@ -174,6 +174,19 @@ in the data set with varying numbers of samples (see Table 1).
 |  **H3K9me3**   |     7     |
 
 Table: **Table 1:** Summary of available ChIP-seq samples
+
+
+
+Considering high level summaries of the data, the variation in peak calls between samples
+appears to be largely as one might expect (see Figure 1 and 
+Figure 2). The only potential issue highlighted by these summaries
+is the consistently low number of peaks for sample *C001UYH1*. This could indicate
+a problem with identifying peaks in this sample. Since we will be considering
+consensus peak calls accross samples this may not be an issue. 
+
+![**Figure 1:** Number of ChIP-seq peaks called for each histone modification per sample.](figure/peakCountPlot.png) 
+
+![**Figure 2:** Median width of ChIP-seq peaks for each histone modification per sample.](figure/peakWidthPlot.png) 
 
 
 # Appendix {-}
