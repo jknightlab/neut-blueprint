@@ -1,8 +1,10 @@
 ---
 title: Annotating Neutrophil eQTL with Blueprint Data
 author: Peter Humburg
-date: Mon 13 Oct 2014
+date: Tue 21 Oct 2014
 ---
+
+
 
 
 
@@ -61,10 +63,10 @@ are quite large. This is further emphasised by the following summary table.
 |:-------------:|:-----------------:|:------------------:|
 |   **Min.**    |         2         |         1          |
 |  **1st Qu.**  |        54         |        894         |
-|  **Median**   |        157        |        2720        |
-|   **Mean**    |        456        |        4770        |
-|  **3rd Qu.**  |        529        |        6370        |
-|   **Max.**    |       24700       |       130000       |
+|  **Median**   |        157        |        2715        |
+|   **Mean**    |       455.6       |        4769        |
+|  **3rd Qu.**  |        529        |        6367        |
+|   **Max.**    |       24740       |       129600       |
 
 Table: Summary of length distribution for hypo- and hyper-methylated regions.
 
@@ -89,10 +91,10 @@ regions remain after filtering.
 |:-------------:|:-----------------:|:------------------:|
 |   **Min.**    |        50         |         50         |
 |  **1st Qu.**  |        250        |        1320        |
-|  **Median**   |        618        |        3360        |
-|   **Mean**    |        935        |        5470        |
-|  **3rd Qu.**  |       1310        |        7300        |
-|   **Max.**    |       22200       |       115000       |
+|  **Median**   |        618        |        3365        |
+|   **Mean**    |       935.3       |        5470        |
+|  **3rd Qu.**  |       1306        |        7297        |
+|   **Max.**    |       22190       |       115400       |
 
 Table: Summary of length distribution for hypo- and hyper-methylated consensus regions.
 
@@ -110,36 +112,36 @@ particular interest.
 ![Proportion of eSNPs contained within methylation islands](figure/methDistZero.png) 
 
 
-```
-## Warning: Chi-squared approximation may be incorrect
-```
 The proportion of cis eSNPs located in hypo-methylated regions
-(3.7366%) is substantially
+(3.7365813%) is substantially
 higher than would be expected by chance 
-(only 0.8285% 
-of imputed SNPs are located in hypo-methylated regions). The significance 
-of this difference is confirmed via a formal test for the equality of these
-proportions.
+(only 0.8285134% 
+of imputed SNPs are located in hypo-methylated regions). This corresponds
+to an odd's ratio of 4.6. 
+The significance of this difference is confirmed via Fisher's exact test.
 
 
-|  Test statistic  |  df  |      P value       |  Alternative hypothesis  |
-|:----------------:|:----:|:------------------:|:------------------------:|
-|      482.5       |  1   | _6.093e-107_ * * * |        two.sided         |
+|      P value      |  Alternative hypothesis  |
+|:-----------------:|:------------------------:|
+| _1.189e-59_ * * * |        two.sided         |
 
-Table: 2-sample test for equality of proportions with continuity correction: 6933 and 181 out of 836800 and 4844 respectively.
+Table: Fisher's Exact Test for Count Data: 6933 and 181 out of 836800 and 4844 respectively.
   
 For the much more common hyper-methylated sites the difference between eSNPs and
 background is less pronounced. Overall 
-42.7591% of imputed SNPs
+42.7590822% of imputed SNPs
 fall within a hyper-methylated region while only 
-38.5632% are located within one.
+38.5631709% are located within one.
+This corresponds to an odd's ratio of 
+0.84. 
+The significance of this difference is confirmed via Fisher's exact test.
 
 
-|  Test statistic  |  df  |      P value      |  Alternative hypothesis  |
-|:----------------:|:----:|:-----------------:|:------------------------:|
-|      34.48       |  1   | _4.314e-09_ * * * |        two.sided         |
+|      P value      |  Alternative hypothesis  |
+|:-----------------:|:------------------------:|
+| _3.594e-09_ * * * |        two.sided         |
 
-Table: 2-sample test for equality of proportions with continuity correction: 357808 and 1868 out of 836800 and 4844 respectively.
+Table: Fisher's Exact Test for Count Data: 357808 and 1868 out of 836800 and 4844 respectively.
  
  The distribution of distances paint a similar picture. There is a pronunced
  shift in the location of eSNPs towards hypo-sensitive regions when compared
@@ -148,37 +150,127 @@ Table: 2-sample test for equality of proportions with continuity correction: 357
  
 ![Distance from lead SNP to nearest methylation island](figure/methDistLeadPlot.png) 
 
+# Histone modification data
+The Blueprint consortium provides BED files with peak calls for a number of 
+histone modifications obtained from neutrophils. As with the methylation data
+the format of the BED files is non-standard and the first five columns have to be
+extracted prior to further processing.
+
+
+
+
+There are 7 different histone modifications
+in the data set with varying numbers of samples (see Table 1).
+
+
+|     &nbsp;     |  Samples  |
+|:--------------:|:---------:|
+|  **H2A_Zac**   |     1     |
+|  **H3K27ac**   |     7     |
+|  **H3K27me3**  |     6     |
+|  **H3K36me3**  |     7     |
+|  **H3K4me1**   |     7     |
+|  **H3K4me3**   |     7     |
+|  **H3K9me3**   |     7     |
+
+Table: **Table 1:** Summary of available ChIP-seq samples
 
 
 # Appendix {-}
+## Custom functions used
+
+```r
+loadBlueprint <- function(files) {
+    splitNames <- strsplit(basename(files), ".", fixed = TRUE)
+    sample <- sapply(splitNames, "[[", 1)
+    type <- sapply(splitNames, "[[", 2)
+    df <- data.frame(file = files, sample = sample, type = type)
+    gr <- lapply(files, rtracklayer::import.bed, genome = "hg19", asRangedData = FALSE)
+    list(meta = df, ranges = gr)
+}
+
+figRef <- local({
+    tag <- numeric()
+    created <- logical()
+    used <- logical()
+    function(label, caption, prefix = options("figcap.prefix"), sep = options("figcap.sep"), 
+        prefix.highlight = options("figcap.prefix.highlight")) {
+        i <- which(names(tag) == label)
+        if (length(i) == 0) {
+            i <- length(tag) + 1
+            tag <<- c(tag, i)
+            names(tag)[length(tag)] <<- label
+            used <<- c(used, FALSE)
+            names(used)[length(used)] <<- label
+            created <<- c(created, FALSE)
+            names(created)[length(created)] <<- label
+        }
+        if (!missing(caption)) {
+            created[label] <<- TRUE
+            paste0(prefix.highlight, prefix, " ", i, sep, prefix.highlight, 
+                " ", caption)
+        } else {
+            used[label] <<- TRUE
+            paste(prefix, tag[label])
+        }
+    }
+})
+
+tabRef <- local({
+    tag <- numeric()
+    created <- logical()
+    used <- logical()
+    function(label, caption, prefix = options("tabcap.prefix"), sep = options("tabcap.sep"), 
+        prefix.highlight = options("tabcap.prefix.highlight")) {
+        i <- which(names(tag) == label)
+        if (length(i) == 0) {
+            i <- length(tag) + 1
+            tag <<- c(tag, i)
+            names(tag)[length(tag)] <<- label
+            used <<- c(used, FALSE)
+            names(used)[length(used)] <<- label
+            created <<- c(created, FALSE)
+            names(created)[length(created)] <<- label
+        }
+        if (!missing(caption)) {
+            created[label] <<- TRUE
+            paste0(prefix.highlight, prefix, " ", i, sep, prefix.highlight, 
+                " ", caption)
+        } else {
+            used[label] <<- TRUE
+            paste(prefix, tag[label])
+        }
+    }
+})
+```
+
 ## Session Info
 
 ```
-## R version 3.0.1 (2013-05-16)
-## Platform: x86_64-unknown-linux-gnu (64-bit)
+## R version 3.1.1 (2014-07-10)
+## Platform: x86_64-pc-linux-gnu (64-bit)
 ## 
 ## locale:
-##  [1] LC_CTYPE=en_GB.UTF-8    LC_NUMERIC=C           
-##  [3] LC_TIME=en_GB           LC_COLLATE=en_GB.UTF-8 
-##  [5] LC_MONETARY=en_GB       LC_MESSAGES=en_GB.UTF-8
-##  [7] LC_PAPER=C              LC_NAME=C              
-##  [9] LC_ADDRESS=C            LC_TELEPHONE=C         
-## [11] LC_MEASUREMENT=en_GB    LC_IDENTIFICATION=C    
+##  [1] LC_CTYPE=en_GB.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_GB.UTF-8        LC_COLLATE=en_GB.UTF-8    
+##  [5] LC_MONETARY=en_GB.UTF-8    LC_MESSAGES=en_GB.UTF-8   
+##  [7] LC_PAPER=en_GB.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_GB.UTF-8 LC_IDENTIFICATION=C       
 ## 
 ## attached base packages:
 ## [1] parallel  methods   stats     graphics  grDevices utils     datasets 
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] pander_0.3.8         scales_0.2.3         ggplot2_0.9.3.1     
-## [4] GenomicRanges_1.12.5 IRanges_1.18.4       BiocGenerics_0.6.0  
-## [7] knitr_1.6           
+## [1] pander_0.3.8         scales_0.2.4         ggplot2_1.0.0       
+## [4] GenomicRanges_1.16.4 GenomeInfoDb_1.0.2   IRanges_1.22.10     
+## [7] BiocGenerics_0.10.0  knitr_1.6.14        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] colorspace_1.2-2   dichromat_2.0-0    digest_0.6.3      
-##  [4] evaluate_0.5.5     formatR_1.0        grid_3.0.1        
-##  [7] gtable_0.1.2       labeling_0.1       MASS_7.3-26       
-## [10] munsell_0.4        plyr_1.8           proto_0.3-10      
-## [13] RColorBrewer_1.0-5 reshape2_1.2.2     stats4_3.0.1      
-## [16] stringr_0.6.2      tools_3.0.1
+##  [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0     
+##  [5] grid_3.1.1       gtable_0.1.2     labeling_0.3     MASS_7.3-34     
+##  [9] munsell_0.4.2    plyr_1.8.1       proto_0.3-10     Rcpp_0.11.2     
+## [13] reshape2_1.4     stats4_3.1.1     stringr_0.6.2    tools_3.1.1     
+## [17] XVector_0.4.0
 ```

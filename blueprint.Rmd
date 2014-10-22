@@ -97,7 +97,7 @@ focuses on eQTL of particular interest, e.g. the lead SNP for each gene or
 all peak eQTL.
 
 ```{r loadEQTL, echo=FALSE, cache=TRUE}
-load("blueprint/Neut_results/Neut_neutonly_15PC_140203.rdata")
+load("blueprint/Neut_results/Neut_neutonly_140221_imputed.rdata")
 snppos <- read.table("Neut/Matrix_eQTL_SNP_loc_hg19_090912.txt", header=TRUE,
 		stringsAsFactors=FALSE)
 cis <- merge(snppos, subset(me$cis$eqtls, FDR < 0.05), by.x="snp", by.y="snps")
