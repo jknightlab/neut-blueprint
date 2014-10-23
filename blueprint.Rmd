@@ -433,6 +433,26 @@ ggplot(chip$meta, aes(x=`peak count`, y=`consolidated count`, colour=sample, sha
 ggplot(chip$meta, aes(x=`median width`, y=`consolidated peak width`, colour=sample, shape=type)) + 
 		geom_point() + geom_abline(intercept=0, slope=1) + theme_bw()
 ```
+
+```{r groupedMarks, echo=FALSE, cache=TRUE}
+activatingMarks <- c("H3K27ac", "H3K36me3", "H3K4me3")
+repressiveMarks <- c("H3K27me3", "H3K9me3")
+chipPeaks$activating <- Reduce(union, chipPeaks[activatingMarks])
+chipPeaks$repressive <- Reduce(union, chipPeaks[repressiveMarks]) 
+```
+
+In addition to considering individual histone marks we are also considering groups 
+broader groups with related effects. `r pander(activatingMarks)` are grouped together
+as activating marks and `r pander(repressiveMarks)` are grouped together as repressive
+marks. Furthermore, we define to types of enhancer marks by considering
+*H3K4me1* and whether it occurs together or without *H3K27ac*. The former indicates 
+an active and the latter a poised enhancer.
+
+```{r enhancerMarks, echo=FALSE, cache=TRUE}
+chipPeaks$`active enhancer` <- intersect(chipPeaks$H3K4me1, chipPeaks$H3K27ac)
+```
+
+
 # Appendix {-}
 ## Custom functions used
 ```{r, ref.label="functions", eval=FALSE, echo=TRUE}
