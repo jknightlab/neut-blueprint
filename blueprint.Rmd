@@ -29,6 +29,18 @@ loadBlueprint <- function(files){
 	list(meta=df, ranges=gr)
 }
 
+annotateSNPs <- function(snps, regions, names){
+	meta <- mcols(snps)
+	if(missing(names)){
+		names <- names(regions)
+	}
+	for(i in 1:lengthh(regions)){
+		meta[[names[i]]] <- mcols(distanceToNearest(snps, regions))$distance
+	}
+	mcols(snps) <- meta
+	snps
+}
+
 figRef <- local({
     tag <- numeric()
     created <- logical()
@@ -218,20 +230,9 @@ All significant eQTL are annotated with their distance to the closest hyper- and
 hypo-methylated regions.
 
 ```{r methDist, echo=FALSE, cache=TRUE, dependson=c("loadSNPs", "overlapRegions", "loadEQTL")}
-metaAll <- mcols(allSNPs)
-metaAll$hypo_meth <- mcols(distanceToNearest(allSNPs, hypo))$distance
-metaAll$hyper_meth <- mcols(distanceToNearest(allSNPs, hyper))$distance
-mcols(allSNPs) <- metaAll
-
-metaCis <- mcols(cis)
-metaCis$hypo_meth <- mcols(distanceToNearest(cis, hypo))$distance
-metaCis$hyper_meth <- mcols(distanceToNearest(cis, hyper))$distance
-mcols(cis) <- metaCis
-
-metaTrans <- mcols(trans)
-metaTrans$hypo_meth <- mcols(distanceToNearest(trans, hypo))$distance
-metaTrans$hyper_meth <- mcols(distanceToNearest(trans, hyper))$distance
-mcols(trans) <- metaTrans
+allSNPs <- annotateSNPs(allSNPs, list(hypo_meth=hypo, hyper_meth=hyper))
+cis <- annotateSNPs(cis, list(hypo_meth=hypo, hyper_meth=hyper))
+trans <- annotateSNPs(trans, list(hypo_meth=hypo, hyper_meth=hyper))
 ```
 
 Considering the most significant SNP for each gene, in addition to the
