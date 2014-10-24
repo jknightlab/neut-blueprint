@@ -34,8 +34,8 @@ annotateSNPs <- function(snps, regions, outNames){
 	if(missing(outNames)){
 		outNames <- names(regions)
 	}
-	for(i in 1:lengthh(regions)){
-		meta[[outNames[i]]] <- mcols(distanceToNearest(snps, regions))$distance
+	for(i in 1:length(regions)){
+		meta[[outNames[i]]] <- mcols(distanceToNearest(snps, regions[[i]]))$distance
 	}
 	mcols(snps) <- meta
 	snps
