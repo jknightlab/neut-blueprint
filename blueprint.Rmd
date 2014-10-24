@@ -454,7 +454,7 @@ chipPeaks$`active enhancer` <- chipPeaks$H3K4me1[overlapCount > 0]
 chipPeaks$`poised enhancer` <- chipPeaks$H3K4me1[overlapCount == 0]
 ```
 
-Based on these definitions there are `r length(chipPeak$activating)` activating and
+Based on these definitions there are `r length(chipPeaks$activating)` activating and
 `r length(chipPeaks$repressive)` repressive marks as well as 
 `r length(chipPeaks$`active enhancer`)` active and `r length(chipPeaks$`poised enhancer`)`
 poised enhancers.
