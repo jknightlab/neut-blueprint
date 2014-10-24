@@ -1,7 +1,7 @@
 ---
 title: Annotating Neutrophil eQTL with Blueprint Data
 author: Peter Humburg
-date: Wed 22 Oct 2014
+date: Fri 24 Oct 2014
 ---
 
 
@@ -213,6 +213,23 @@ As far as annotating eQTL is concerded the effect is likely to be minor, however
 ![**Figure 3:** Difference in the number of peaks before and after consolidating samples](figure/comparePeakCountPlot.png) 
 
 ![**Figure 4:** Difference in peak width before and after consolidating samples.](figure/compareWidthPlot.png) 
+
+
+
+In addition to considering individual histone marks we are also considering groups 
+broader groups with related effects.  are grouped together
+as activating marks and  are grouped together as repressive
+marks. Furthermore, we define to types of enhancer marks by considering
+*H3K4me1* and whether it occurs together or without *H3K27ac*. The former indicates 
+an active and the latter a poised enhancer.
+
+
+
+Based on these definitions there are 137311 activating and
+147417 repressive marks as well as 
+22336 active and 
+60805 poised enhancers.
+
 # Appendix {-}
 ## Custom functions used
 
@@ -305,9 +322,9 @@ tabRef <- local({
 ## [7] BiocGenerics_0.10.0  knitr_1.6.14        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] codetools_0.2-9  colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5  
-##  [5] formatR_1.0      grid_3.1.1       gtable_0.1.2     labeling_0.3    
-##  [9] MASS_7.3-34      munsell_0.4.2    plyr_1.8.1       proto_0.3-10    
-## [13] Rcpp_0.11.2      reshape2_1.4     stats4_3.1.1     stringr_0.6.2   
-## [17] tools_3.1.1      XVector_0.4.0
+##  [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0     
+##  [5] grid_3.1.1       gtable_0.1.2     labeling_0.3     MASS_7.3-34     
+##  [9] munsell_0.4.2    plyr_1.8.1       proto_0.3-10     Rcpp_0.11.2     
+## [13] reshape2_1.4     stats4_3.1.1     stringr_0.6.2    tools_3.1.1     
+## [17] XVector_0.4.0
 ```
