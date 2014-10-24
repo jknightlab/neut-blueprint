@@ -113,35 +113,35 @@ particular interest.
 
 
 The proportion of cis eSNPs located in hypo-methylated regions
-(3.7365813%) is substantially
+(3.3588957%) is substantially
 higher than would be expected by chance 
 (only 0.8285134% 
 of imputed SNPs are located in hypo-methylated regions). This corresponds
-to an odd's ratio of 4.6. 
+to an odd's ratio of 4.2. 
 The significance of this difference is confirmed via Fisher's exact test.
 
 
-|      P value      |  Alternative hypothesis  |
-|:-----------------:|:------------------------:|
-| _1.189e-59_ * * * |        two.sided         |
+|     P value      |  Alternative hypothesis  |
+|:----------------:|:------------------------:|
+| _1.02e-63_ * * * |        two.sided         |
 
-Table: Fisher's Exact Test for Count Data: 6933 and 181 out of 836800 and 4844 respectively.
+Table: Fisher's Exact Test for Count Data: 6933 and 219 out of 836800 and 6520 respectively.
   
 For the much more common hyper-methylated sites the difference between eSNPs and
 background is less pronounced. Overall 
 42.7590822% of imputed SNPs
 fall within a hyper-methylated region while only 
-38.5631709% are located within one.
+38.2515337% are located within one.
 This corresponds to an odd's ratio of 
-0.84. 
+0.83. 
 The significance of this difference is confirmed via Fisher's exact test.
 
 
 |      P value      |  Alternative hypothesis  |
 |:-----------------:|:------------------------:|
-| _3.594e-09_ * * * |        two.sided         |
+| _1.891e-13_ * * * |        two.sided         |
 
-Table: Fisher's Exact Test for Count Data: 357808 and 1868 out of 836800 and 4844 respectively.
+Table: Fisher's Exact Test for Count Data: 357808 and 2494 out of 836800 and 6520 respectively.
  
  The distribution of distances paint a similar picture. There is a pronunced
  shift in the location of eSNPs towards hypo-sensitive regions when compared
@@ -230,6 +230,7 @@ Based on these definitions there are 137311 activating and
 22336 active and 
 60805 poised enhancers.
 
+
 # Appendix {-}
 ## Custom functions used
 
@@ -241,6 +242,18 @@ loadBlueprint <- function(files) {
     df <- data.frame(file = files, sample = sample, type = type)
     gr <- lapply(files, rtracklayer::import.bed, genome = "hg19", asRangedData = FALSE)
     list(meta = df, ranges = gr)
+}
+
+annotateSNPs <- function(snps, regions, outNames) {
+    meta <- mcols(snps)
+    if (missing(outNames)) {
+        outNames <- names(regions)
+    }
+    for (i in 1:length(regions)) {
+        meta[[outNames[i]]] <- mcols(distanceToNearest(snps, regions[[i]]))$distance
+    }
+    mcols(snps) <- meta
+    snps
 }
 
 figRef <- local({
@@ -322,9 +335,24 @@ tabRef <- local({
 ## [7] BiocGenerics_0.10.0  knitr_1.6.14        
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] colorspace_1.2-4 digest_0.6.4     evaluate_0.5.5   formatR_1.0     
-##  [5] grid_3.1.1       gtable_0.1.2     labeling_0.3     MASS_7.3-34     
-##  [9] munsell_0.4.2    plyr_1.8.1       proto_0.3-10     Rcpp_0.11.2     
-## [13] reshape2_1.4     stats4_3.1.1     stringr_0.6.2    tools_3.1.1     
-## [17] XVector_0.4.0
+##  [1] base64enc_0.1-2         BatchJobs_1.4          
+##  [3] BBmisc_1.7              BiocParallel_0.6.1     
+##  [5] Biostrings_2.32.1       bitops_1.0-6           
+##  [7] brew_1.0-6              BSgenome_1.32.0        
+##  [9] checkmate_1.4           codetools_0.2-9        
+## [11] colorspace_1.2-4        DBI_0.3.1              
+## [13] digest_0.6.4            evaluate_0.5.5         
+## [15] fail_1.2                foreach_1.4.2          
+## [17] formatR_1.0             GenomicAlignments_1.0.6
+## [19] grid_3.1.1              gtable_0.1.2           
+## [21] iterators_1.0.7         labeling_0.3           
+## [23] MASS_7.3-34             munsell_0.4.2          
+## [25] plyr_1.8.1              proto_0.3-10           
+## [27] Rcpp_0.11.2             RCurl_1.95-4.3         
+## [29] reshape2_1.4            Rsamtools_1.16.1       
+## [31] RSQLite_0.11.4          rtracklayer_1.24.2     
+## [33] sendmailR_1.2-1         stats4_3.1.1           
+## [35] stringr_0.6.2           tools_3.1.1            
+## [37] XML_3.98-1.1            XVector_0.4.0          
+## [39] zlibbioc_1.10.0
 ```
