@@ -461,6 +461,15 @@ Based on these definitions there are `r length(chipPeaks$activating)` activating
 `r length(chipPeaks[["active enhancer"]])` active and 
 `r length(chipPeaks[["poised enhancer"]])` poised enhancers.
 
+## Annotating eQTL
+All significant eQTL are annotated with their distance to the different histone marks as well
+as functional categories infered from the presence of different marks.
+
+```{r chipDist, echo=FALSE, cache=TRUE, dependson=c("loadSNPs", "enhancerMarks", "groupedMarks", "loadEQTL")}
+allSNPs <- annotateSNPs(allSNPs, chipPeaks)
+cis <- annotateSNPs(cis, chipPeaks)
+trans <- annotateSNPs(trans, chipPeaks)
+```
 
 # Appendix {-}
 ## Custom functions used
