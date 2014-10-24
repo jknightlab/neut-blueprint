@@ -29,13 +29,13 @@ loadBlueprint <- function(files){
 	list(meta=df, ranges=gr)
 }
 
-annotateSNPs <- function(snps, regions, names){
+annotateSNPs <- function(snps, regions, outNames){
 	meta <- mcols(snps)
-	if(missing(names)){
-		names <- names(regions)
+	if(missing(outNames)){
+		outNames <- names(regions)
 	}
 	for(i in 1:lengthh(regions)){
-		meta[[names[i]]] <- mcols(distanceToNearest(snps, regions))$distance
+		meta[[outNames[i]]] <- mcols(distanceToNearest(snps, regions))$distance
 	}
 	mcols(snps) <- meta
 	snps
@@ -459,6 +459,7 @@ Based on these definitions there are `r length(chipPeaks$activating)` activating
 `r length(chipPeaks$repressive)` repressive marks as well as 
 `r length(chipPeaks[["active enhancer"]])` active and 
 `r length(chipPeaks[["poised enhancer"]])` poised enhancers.
+
 
 # Appendix {-}
 ## Custom functions used
