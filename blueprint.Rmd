@@ -449,7 +449,9 @@ marks. Furthermore, we define to types of enhancer marks by considering
 an active and the latter a poised enhancer.
 
 ```{r enhancerMarks, echo=FALSE, cache=TRUE}
-chipPeaks$`active enhancer` <- intersect(chipPeaks$H3K4me1, chipPeaks$H3K27ac)
+overlapCount <- countOverlaps(chipPeaks$H3K4me1, chipPeaks$H3K27ac)
+chipPeaks$`active enhancer` <- chipPeaks$H3K4me1[overlapCount > 0]
+chipPeaks$`poised enhancer` <- chipPeaks$H3K4me1[overlapCount == 0]
 ```
 
 
