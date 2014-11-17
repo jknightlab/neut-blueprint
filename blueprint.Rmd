@@ -29,6 +29,18 @@ loadBlueprint <- function(files){
 	list(meta=df, ranges=gr)
 }
 
+annotateSNPs <- function(snps, regions, outNames){
+	meta <- mcols(snps)
+	if(missing(outNames)){
+		outNames <- names(regions)
+	}
+	for(i in 1:length(regions)){
+		meta[[outNames[i]]] <- mcols(distanceToNearest(snps, regions[[i]]))$distance
+	}
+	mcols(snps) <- meta
+	snps
+}
+
 figRef <- local({
     tag <- numeric()
     created <- logical()
@@ -218,20 +230,9 @@ All significant eQTL are annotated with their distance to the closest hyper- and
 hypo-methylated regions.
 
 ```{r methDist, echo=FALSE, cache=TRUE, dependson=c("loadSNPs", "overlapRegions", "loadEQTL")}
-metaAll <- mcols(allSNPs)
-metaAll$hypo_meth <- mcols(distanceToNearest(allSNPs, hypo))$distance
-metaAll$hyper_meth <- mcols(distanceToNearest(allSNPs, hyper))$distance
-mcols(allSNPs) <- metaAll
-
-metaCis <- mcols(cis)
-metaCis$hypo_meth <- mcols(distanceToNearest(cis, hypo))$distance
-metaCis$hyper_meth <- mcols(distanceToNearest(cis, hyper))$distance
-mcols(cis) <- metaCis
-
-metaTrans <- mcols(trans)
-metaTrans$hypo_meth <- mcols(distanceToNearest(trans, hypo))$distance
-metaTrans$hyper_meth <- mcols(distanceToNearest(trans, hyper))$distance
-mcols(trans) <- metaTrans
+allSNPs <- annotateSNPs(allSNPs, list(hypo_meth=hypo, hyper_meth=hyper))
+cis <- annotateSNPs(cis, list(hypo_meth=hypo, hyper_meth=hyper))
+trans <- annotateSNPs(trans, list(hypo_meth=hypo, hyper_meth=hyper))
 ```
 
 Considering the most significant SNP for each gene, in addition to the
@@ -250,9 +251,10 @@ transDF <- mcols(subset(trans, snp %in% transLeads))
 transDF <- data.frame(eQTL="trans", feature=c(rep("hypo methylation", nrow(transDF)),
 			rep("hyper methylation", nrow(transDF))), 
 		distance=c(transDF$hypo_meth, transDF$hyper_meth), stringsAsFactors=FALSE)
-allDF <- data.frame(eQTL="background", feature=c(rep("hypo methylation", nrow(metaAll)),
-			rep("hyper methylation", nrow(metaAll))), 
-		distance=c(metaAll$hypo_meth, metaAll$hyper_meth), stringsAsFactors=FALSE)
+allDF <- data.frame(eQTL="background", feature=c(rep("hypo methylation", length(allSNPs)),
+			rep("hyper methylation", length(allSNPs))), 
+		distance=c(mcols(allSNPs)$hypo_meth, mcols(allSNPs)$hyper_meth), 
+		stringsAsFactors=FALSE)
 
 methDistDF <- rbind(cisDF, allDF)
 methDistDF$contained <- methDistDF$distance == 0
@@ -458,6 +460,16 @@ Based on these definitions there are `r length(chipPeaks$activating)` activating
 `r length(chipPeaks$repressive)` repressive marks as well as 
 `r length(chipPeaks[["active enhancer"]])` active and 
 `r length(chipPeaks[["poised enhancer"]])` poised enhancers.
+
+## Annotating eQTL
+All significant eQTL are annotated with their distance to the different histone marks as well
+as functional categories infered from the presence of different marks.
+
+```{r chipDist, echo=FALSE, cache=TRUE, dependson=c("loadSNPs", "enhancerMarks", "groupedMarks", "loadEQTL")}
+allSNPs <- annotateSNPs(allSNPs, chipPeaks)
+cis <- annotateSNPs(cis, chipPeaks)
+trans <- annotateSNPs(trans, chipPeaks)
+```
 
 # Appendix {-}
 ## Custom functions used
