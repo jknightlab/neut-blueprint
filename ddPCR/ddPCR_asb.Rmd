@@ -17,6 +17,20 @@ options(figcap.prefix = "Figure", figcap.sep = ":", figcap.prefix.highlight = "*
 options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**")
 ```
 
+# Introduction
+
+```{r loadData}
+data <- read.table("vivek_no_more_rain.txt", head=TRUE, sep="\t", check.names=FALSE)
+data$Type <- factor(sapply(strsplit(as.character(data$Sample), " "), "[[", 1))
+data$Sample <- factor(sapply(strsplit(as.character(data$Sample), " "), "[[", 2))
+data$Allele <- factor(sub("NOD2", "", as.character(data$Assay)))
+```
+This is an analysis of ChIP ddPCR data to test whether there is allele specific binding 
+to a region of the NOD2 gene. Two technical replicates of ChIP and input were generated
+for `r length(levels(data$Sample))` samples. Measurements for the two 
+alleles (`r pander(levels(data$Type))`) were taken from the same well, i.e. for each
+replicate the two alleles are paired.
+
 
 
 
