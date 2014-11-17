@@ -1,0 +1,33 @@
+---
+title: Analysis of ddPCR data to confirm allele specific binding
+author: Peter Humburg
+date: `r format(Sys.time(), "%a %d %b %Y")`
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(pander)
+library(ggplot2)
+
+opts_knit$set(root.dir = "/well/jknight/vivek")
+opts_chunk$set(tidy=TRUE)
+opts_chunk$set(echo=FALSE)
+opts_chunk$set(autodep=TRUE)
+options(figcap.prefix = "Figure", figcap.sep = ":", figcap.prefix.highlight = "**")
+options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**")
+```
+
+
+
+
+
+
+
+# Apendix {-}
+## Options
+```{r setup, eval=FALSE}
+```
+## Session info
+```{r sessionInfo}
+sessionInfo()
+```
