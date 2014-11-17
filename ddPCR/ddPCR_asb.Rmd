@@ -31,6 +31,14 @@ for `r length(levels(data$Sample))` samples. Measurements for the two
 alleles (`r pander(levels(data$Type))`) were taken from the same well, i.e. for each
 replicate the two alleles are paired.
 
+# Testing for allele specific binding
+The counts obtained from the ddPCR measurements are assumed to come from a Poisson
+distribution and concentration estimates are based on this. The concentration
+estimates essentially are estimates of Poisson means that have been scaled to correspond
+to the same unit volume ($1\muL$). Here we treat the concentration estimates as
+Poisson means and test for a difference in the ratio between means for the two 
+alleles^[Note that the estimates based on the raw data differ from the concentration 
+estimates by approx. a factor of 1000].
 
 
 
