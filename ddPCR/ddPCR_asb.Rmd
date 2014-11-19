@@ -14,6 +14,7 @@ opts_knit$set(root.dir = "/well/jknight/vivek")
 opts_chunk$set(tidy=TRUE)
 opts_chunk$set(echo=FALSE)
 opts_chunk$set(autodep=TRUE)
+opts_chunk$set(dpi=300)
 options(figcap.prefix = "Figure", figcap.sep = ":", figcap.prefix.highlight = "**")
 options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**")
 ```
