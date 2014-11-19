@@ -172,12 +172,12 @@ ggplot(tests, aes(x=Sample, colour=-log10(p.value), group=Replicate)) +
 # Apendix {-}
 ## Options
 
-```{r setup, eval=FALSE}
+```{r showSetup, ref.label="setup", eval=FALSE}
 ```
 
 ## Custom functions
 
-```{r functions, eval=FALSE}
+```{r showFunctions, ref.label="functions", eval=FALSE}
 ```
 
 ## Session info
