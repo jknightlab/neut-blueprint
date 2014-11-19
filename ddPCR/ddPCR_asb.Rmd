@@ -108,7 +108,7 @@ replicate the two alleles are paired.
 The number of copies of each allele contained in a droplet used for ddPCR measurements 
 are assumed to come from a Poisson distribution and concentration estimates are based on this. 
 The concentration estimates essentially are estimates of Poisson means that have been scaled 
-to correspond to the same unit volume ($1\mu$L). At low concentrations the number
+to correspond to the same unit volume ($1\\mu$L). At low concentrations the number
 of positive droplets is essentially the same as the number of copies of the target
 sequence sampled because the probability that more than one copy is contained in a
 single droplet is very small. In this case the droplet counts provided in the data file
@@ -135,11 +135,11 @@ rateTab[["Ratio 1"]] <- apply(rateTab[,3:4], 1, function(x) x[1]/x[2])
 rateTab[["Ratio 2"]] <- apply(rateTab[,5:6], 1, function(x) x[1]/x[2])
 
 set.caption(tabRef("rates", 
-		"Estimated concentrations (in copies per $\mu$L) for C and T alleles in ChIP and input together with the corresponding ratios."))
+		"Estimated concentrations (in copies per $\\mu$L) for C and T alleles in ChIP and input together with the corresponding ratios."))
 pander(rateTab, style="rmarkdown", split.table=85, round=2)
 ```
 
-`r refTab("rates")` provides an overview of concentration estimates and corresponding
+`r tabRef("rates")` provides an overview of concentration estimates and corresponding
 ratios for all samples. The results of the testing procedure are summarised in
 `r figRef("rateTest")`.
 
@@ -178,6 +178,7 @@ ggplot(tests, aes(x=Sample, colour=-log10(p.value), group=Replicate)) +
 ## Custom functions
 
 ```{r functions, eval=FALSE}
+```
 
 ## Session info
 
