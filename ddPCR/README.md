@@ -81,6 +81,7 @@ opts_chunk$set(tidy = TRUE)
 opts_chunk$set(echo = FALSE)
 opts_chunk$set(autodep = TRUE)
 opts_chunk$set(dpi = 300)
+opts_chunk$set(dev = c("png", "pdf"))
 options(figcap.prefix = "Figure", figcap.sep = ":", figcap.prefix.highlight = "**")
 options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**")
 ```
