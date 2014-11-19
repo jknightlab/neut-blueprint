@@ -5,26 +5,6 @@ date: Wed 19 Nov 2014
 ---
 
 
-```r
-library(knitr)
-library(pander)
-library(ggplot2)
-```
-
-```
-## Loading required package: methods
-```
-
-```r
-library(reshape2)
-
-opts_knit$set(root.dir = "/well/jknight/vivek")
-opts_chunk$set(tidy=TRUE)
-opts_chunk$set(echo=FALSE)
-opts_chunk$set(autodep=TRUE)
-options(figcap.prefix = "Figure", figcap.sep = ":", figcap.prefix.highlight = "**")
-options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**")
-```
 
 
 
