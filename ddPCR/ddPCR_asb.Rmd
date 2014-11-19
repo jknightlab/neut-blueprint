@@ -19,6 +19,60 @@ options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**
 ```
 
 ```{r functions, include=FALSE}
+figRef <- local({
+    tag <- numeric()
+    created <- logical()
+    used <- logical()
+    function(label, caption, prefix = options("figcap.prefix"), 
+        sep = options("figcap.sep"), prefix.highlight = options("figcap.prefix.highlight")) {
+        i <- which(names(tag) == label)
+        if (length(i) == 0) {
+            i <- length(tag) + 1
+            tag <<- c(tag, i)
+            names(tag)[length(tag)] <<- label
+            used <<- c(used, FALSE)
+            names(used)[length(used)] <<- label
+            created <<- c(created, FALSE)
+            names(created)[length(created)] <<- label
+        }
+        if (!missing(caption)) {
+            created[label] <<- TRUE
+            paste0(prefix.highlight, prefix, " ", i, sep, prefix.highlight, 
+                " ", caption)
+        } else {
+            used[label] <<- TRUE
+            paste(prefix, tag[label])
+        }
+    }
+})
+
+tabRef <- local({
+    tag <- numeric()
+    created <- logical()
+    used <- logical()
+    function(label, caption, prefix = options("tabcap.prefix"), 
+        sep = options("tabcap.sep"), prefix.highlight = options("tabcap.prefix.highlight")) {
+        i <- which(names(tag) == label)
+        if (length(i) == 0) {
+            i <- length(tag) + 1
+            tag <<- c(tag, i)
+            names(tag)[length(tag)] <<- label
+            used <<- c(used, FALSE)
+            names(used)[length(used)] <<- label
+            created <<- c(created, FALSE)
+            names(created)[length(created)] <<- label
+        }
+        if (!missing(caption)) {
+            created[label] <<- TRUE
+            paste0(prefix.highlight, prefix, " ", i, sep, prefix.highlight, 
+                " ", caption)
+        } else {
+            used[label] <<- TRUE
+            paste(prefix, tag[label])
+        }
+    }
+})
+
 testRates <- function(n, r, conf.level=0.95){
 	ans <- data.frame(Sample=rep(n$Sample, each=2), Replicate=rep(c(1L, 2L), nrow(n)),
 			Expected=numeric(2*nrow(n)), Ratio=numeric(2*nrow(n)), 
@@ -117,9 +171,16 @@ ggplot(tests, aes(x=Sample, colour=-log10(p.value), group=Replicate)) +
 
 # Apendix {-}
 ## Options
+
 ```{r setup, eval=FALSE}
 ```
+
+## Custom functions
+
+```{r functions, eval=FALSE}
+
 ## Session info
+
 ```{r sessionInfo}
 sessionInfo()
 ```
