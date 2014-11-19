@@ -4,7 +4,7 @@ author: Peter Humburg
 date: `r format(Sys.time(), "%a %d %b %Y")`
 ---
 
-```{r setup}
+```{r setup, include=FALSE}
 library(knitr)
 library(pander)
 library(ggplot2)
@@ -18,7 +18,7 @@ options(figcap.prefix = "Figure", figcap.sep = ":", figcap.prefix.highlight = "*
 options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**")
 ```
 
-```{r functions}
+```{r functions, include=FALSE}
 figRef <- local({
     tag <- numeric()
     created <- logical()
