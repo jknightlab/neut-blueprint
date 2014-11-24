@@ -66,7 +66,7 @@ Figure 1.
 
 ![**Figure 1:** Estimated allele ratios (C/T) with 95% confidence intervals. Ratios have been rescaled such that the expected ratio is 1.](figure/rateTestPlot-1.png) 
 
-# Apendix {-}
+# Appendix {-}
 ## Options
 
 
