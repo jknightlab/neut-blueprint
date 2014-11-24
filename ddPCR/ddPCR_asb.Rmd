@@ -171,7 +171,7 @@ ggplot(tests, aes(x=Sample, colour=-log10(p.value), group=Replicate)) +
 		ylab("Ratio")
 ```
 
-# Apendix {-}
+# Appendix {-}
 ## Options
 
 ```{r showSetup, ref.label="setup", eval=FALSE, echo=TRUE}
