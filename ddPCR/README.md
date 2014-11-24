@@ -1,7 +1,7 @@
 ---
 title: Analysis of ddPCR data to confirm allele specific binding
 author: Peter Humburg
-date: Wed 19 Nov 2014
+date: Mon 24 Nov 2014
 ---
 
 
@@ -81,6 +81,7 @@ opts_chunk$set(tidy = TRUE)
 opts_chunk$set(echo = FALSE)
 opts_chunk$set(autodep = TRUE)
 opts_chunk$set(dpi = 300)
+opts_chunk$set(dev = c("png", "pdf"))
 options(figcap.prefix = "Figure", figcap.sep = ":", figcap.prefix.highlight = "**")
 options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**")
 ```

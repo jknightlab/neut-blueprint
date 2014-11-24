@@ -160,6 +160,8 @@ names(eventTab)[3:6] <- c("C 1", "T 1", "C 2", "T 2")
 
 ```{r rateTest}
 tests <- testRates(eventTab, subset(rateTab, Type=="input"))
+write.table(tests, file="neut-blueprint/ddPCR/pvalue.tab", sep="\t", quote=FALSE, 
+        row.names=FALSE)
 ```
 
 ```{r rateTestPlot, fig.cap=figRef("rateTest", "Estimated allele ratios (C/T) with 95% confidence intervals. Ratios have been rescaled such that the expected ratio is 1.")}
