@@ -1,7 +1,7 @@
 ---
 title: Analysis of ddPCR data to confirm allele specific binding
 author: Peter Humburg
-date: Wed 19 Nov 2014
+date: Mon 24 Nov 2014
 ---
 
 
