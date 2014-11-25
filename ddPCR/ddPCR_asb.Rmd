@@ -215,7 +215,7 @@ set.caption(tabRef("ratesComb",
 pander(rateTabComb, style="rmarkdown", split.table=85, round=2)
 ```
 
-```{r rateTest}
+```{r rateTestComb}
 testsComb <- testRates(eventTabComb, subset(rateTabComb, Type=="input"))
 write.table(testsComb, file="neut-blueprint/ddPCR/pvalue-combined.tab", sep="\t", quote=FALSE, 
         row.names=FALSE)
