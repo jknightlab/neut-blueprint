@@ -1,7 +1,7 @@
 ---
 title: Analysis of ddPCR data to confirm allele specific binding
 author: Peter Humburg
-date: Mon 24 Nov 2014
+date: Tue 25 Nov 2014
 ---
 
 
@@ -65,6 +65,34 @@ Figure 1.
 
 
 ![**Figure 1:** Estimated allele ratios (C/T) with 95% confidence intervals. Ratios have been rescaled such that the expected ratio is 1.](figure/rateTestPlot-1.png) 
+
+We now summarise the data for each individual by combining data from both replicates. To
+this end droplet counts for ChIP samples from the same individual are added and corresponding
+input concentrations are averaged.
+
+
+
+
+|  Sample  |  Type  |   C   |   T   |  Ratio  |
+|:--------:|:------:|:-----:|:-----:|:-------:|
+|   501    |  chip  | 6.63  | 3.44  |  1.93   |
+|   501    | input  |  27   |  25   |  1.08   |
+|   505    |  chip  | 7.33  | 0.32  |  22.91  |
+|   505    | input  | 6.43  | 3.36  |  1.91   |
+|   508    |  chip  | 7.09  | 3.54  |    2    |
+|   508    | input  |  4.5  | 5.72  |  0.79   |
+|   509    |  chip  | 4.22  | 4.38  |  0.96   |
+|   509    | input  | 1.69  |  57   |  0.03   |
+|   512    |  chip  | 8.29  | 2.03  |  4.08   |
+|   512    | input  | 20.29 | 16.62 |  1.22   |
+|   513    |  chip  | 9.94  | 4.19  |  2.37   |
+|   513    | input  | 4.82  | 5.52  |  0.87   |
+
+Table: **Table 2:** Estimated concentrations (in copies per $\mu$L) for C and T alleles in ChIP and input together with the corresponding ratios after pooling data from technical replicates.
+
+
+
+![**Figure 2:** Estimated allele ratios (C/T) with 95% confidence intervals after technical replicates have been combined. Ratios have been rescaled such that the expected ratio is 1.](figure/rateTestCombPlot-1.png) 
 
 # Appendix {-}
 ## Options
@@ -145,19 +173,30 @@ tabRef <- local({
 })
 
 testRates <- function(n, r, conf.level = 0.95) {
-    ans <- data.frame(Sample = rep(n$Sample, each = 2), Replicate = rep(c(1L, 
-        2L), nrow(n)), Expected = numeric(2 * nrow(n)), Ratio = numeric(2 * 
-        nrow(n)), Lower = numeric(2 * nrow(n)), Upper = numeric(2 * nrow(n)), 
-        p.value = numeric(2 * nrow(n)))
+    mult <- if (ncol(n) == 6) 
+        2 else 1
+    ans <- data.frame(Sample = rep(n$Sample, each = mult))
+    if (mult == 2) 
+        ans <- cbind(ans, data.frame(Replicate = rep(c(1L, 2L), nrow(n))))
+    ans <- cbind(ans, data.frame(Expected = numeric(mult * nrow(n)), Ratio = numeric(mult * 
+        nrow(n)), Lower = numeric(mult * nrow(n)), Upper = numeric(mult * nrow(n)), 
+        p.value = numeric(mult * nrow(n))))
     for (i in 1:nrow(n)) {
-        test <- poisson.test(unlist(n[i, c("C 1", "T 1")]), r = r[["Ratio 1"]][i], 
-            conf.level = conf.level)
-        ans[2 * i - 1, 3:7] <- c(r[["Ratio 1"]][i], test$estimate, test$conf.int, 
-            test$p.value)
-        test <- poisson.test(unlist(n[i, c("C 2", "T 2")]), r = r[["Ratio 2"]][i], 
-            conf.level = conf.level)
-        ans[2 * i, 3:7] <- c(r[["Ratio 2"]][i], test$estimate, test$conf.int, 
-            test$p.value)
+        if (ncol(n) == 6) {
+            test <- poisson.test(unlist(n[i, c("C 1", "T 1")]), r = r[["Ratio 1"]][i], 
+                conf.level = conf.level)
+            ans[2 * i - 1, 3:7] <- c(r[["Ratio 1"]][i], test$estimate, test$conf.int, 
+                test$p.value)
+            test <- poisson.test(unlist(n[i, c("C 2", "T 2")]), r = r[["Ratio 2"]][i], 
+                conf.level = conf.level)
+            ans[2 * i, 3:7] <- c(r[["Ratio 2"]][i], test$estimate, test$conf.int, 
+                test$p.value)
+        } else {
+            test <- poisson.test(unlist(n[i, c("C", "T")]), r = r[["Ratio"]][i], 
+                conf.level = conf.level)
+            ans[i, 2:6] <- c(r[["Ratio"]][i], test$estimate, test$conf.int, 
+                test$p.value)
+        }
     }
     ans
 }
