@@ -76,17 +76,26 @@ tabRef <- local({
 })
 
 testRates <- function(n, r, conf.level=0.95){
-	ans <- data.frame(Sample=rep(n$Sample, each=2), Replicate=rep(c(1L, 2L), nrow(n)),
-			Expected=numeric(2*nrow(n)), Ratio=numeric(2*nrow(n)), 
-			Lower=numeric(2*nrow(n)), Upper=numeric(2*nrow(n)),
-			p.value=numeric(2*nrow(n)))
+	mult <- if(ncol(n)==6) 2 else 1
+	ans <- data.frame(Sample=rep(n$Sample, each=mult))
+	if(mult == 2) ans <- cbind(ans, data.frame(Replicate=rep(c(1L, 2L), nrow(n))))
+	ans <- cbind(ans, data.frame(Expected=numeric(mult*nrow(n)), 
+			Ratio=numeric(mult*nrow(n)), 
+			Lower=numeric(mult*nrow(n)), Upper=numeric(mult*nrow(n)),
+			p.value=numeric(mult*nrow(n))))
 	for(i in 1:nrow(n)){
-		test <- poisson.test(unlist(n[i,c("C 1", "T 1")]), r=r[["Ratio 1"]][i], 
-				conf.level=conf.level)
-		ans[2*i-1, 3:7] <- c(r[["Ratio 1"]][i], test$estimate, test$conf.int, test$p.value)
-		test <- poisson.test(unlist(n[i,c("C 2", "T 2")]), r=r[["Ratio 2"]][i],
-				conf.level=conf.level)
-		ans[2*i, 3:7] <- c(r[["Ratio 2"]][i], test$estimate, test$conf.int, test$p.value)
+		if(ncol(n) == 6){
+			test <- poisson.test(unlist(n[i,c("C 1", "T 1")]), r=r[["Ratio 1"]][i], 
+					conf.level=conf.level)
+			ans[2*i-1, 3:7] <- c(r[["Ratio 1"]][i], test$estimate, test$conf.int, test$p.value)
+			test <- poisson.test(unlist(n[i,c("C 2", "T 2")]), r=r[["Ratio 2"]][i],
+					conf.level=conf.level)
+			ans[2*i, 3:7] <- c(r[["Ratio 2"]][i], test$estimate, test$conf.int, test$p.value)
+		} else {
+			test <- poisson.test(unlist(n[i,c("C", "T")]), r=r[["Ratio"]][i], 
+					conf.level=conf.level)
+			ans[i, 2:6] <- c(r[["Ratio"]][i], test$estimate, test$conf.int, test$p.value)
+		}
 	}
 	ans
 }
@@ -166,6 +175,54 @@ write.table(tests, file="neut-blueprint/ddPCR/pvalue.tab", sep="\t", quote=FALSE
 
 ```{r rateTestPlot, fig.cap=figRef("rateTest", "Estimated allele ratios (C/T) with 95% confidence intervals. Ratios have been rescaled such that the expected ratio is 1.")}
 ggplot(tests, aes(x=Sample, colour=-log10(p.value), group=Replicate)) + 
+		geom_pointrange(aes(y=Ratio/Expected, ymin=Lower/Expected, ymax=Upper/Expected), 
+			position=position_dodge(width=0.5)) + 
+		geom_hline(y=1, colour="darkgrey", linetype="dashed") + 
+		theme_bw() + scale_y_log10() + scale_colour_gradient(trans="log") +
+		ylab("Ratio")
+```
+
+We now summarise the data for each individual by combining data from both replicates. To
+this end droplet counts for ChIP samples from the same individual are added and corresponding
+input concentrations are averaged.
+
+```{r combineReps}
+rateComb <- by(rates, list(rates$Sample, rates$Type, rates$Allele), 
+			function(x){ 
+				x[1, "Concentration"] <- sum(x[,"Concentration"]) 
+				x[1, names(x) != "Replicate"]
+})
+rateComb <- do.call(rbind, rateComb)
+
+countComb <- by(counts, list(counts$Sample, counts$Type, counts$Allele), 
+			function(x){ 
+				x[1, "Positives"] <- sum(x[,"Positives"])
+				x[1, "AcceptedDroplets"] <- sum(x[,"AcceptedDroplets"]) 
+				x[1, names(x) != "Replicate"]
+})
+countComb <- do.call(rbind, countComb)
+
+eventTabComb <- dcast(subset(countComb, Type!="input"), 
+		Sample+Type~Allele, value.var="Positives") 
+```
+
+```{r rateTableComb, results="asis"}
+rateTabComb <- dcast(rateComb, Sample+Type~Allele, value.var="Concentration")
+rateTabComb[["Ratio"]] <- apply(rateTabComb[,3:4], 1, function(x) x[1]/x[2])
+
+set.caption(tabRef("ratesComb", 
+		"Estimated concentrations (in copies per $\\mu$L) for C and T alleles in ChIP and input together with the corresponding ratios after pooling data from technical replicates."))
+pander(rateTabComb, style="rmarkdown", split.table=85, round=2)
+```
+
+```{r rateTest}
+testsComb <- testRates(eventTabComb, subset(rateTabComb, Type=="input"))
+write.table(testsComb, file="neut-blueprint/ddPCR/pvalue-combined.tab", sep="\t", quote=FALSE, 
+        row.names=FALSE)
+```
+
+```{r rateTestCombPlot, fig.cap=figRef("rateTestComb", "Estimated allele ratios (C/T) with 95% confidence intervals after technical replicates have been combined. Ratios have been rescaled such that the expected ratio is 1.")}
+ggplot(testsComb, aes(x=Sample, colour=-log10(p.value))) + 
 		geom_pointrange(aes(y=Ratio/Expected, ymin=Lower/Expected, ymax=Upper/Expected), 
 			position=position_dodge(width=0.5)) + 
 		geom_hline(y=1, colour="darkgrey", linetype="dashed") + 
