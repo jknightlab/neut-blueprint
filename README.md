@@ -1,7 +1,8 @@
 # Data analysis for *Genomic modulators of gene expression in human neutrophils*
 This repository contains code for some of the analyses carried out as part of the work that has been published as
 
-REFERENCE HERE
+Vivek Naranbhai *et al.* **Genomic modulators of gene expression in human neutrophils**.  
+Nature Communications 6, Article number: 7545 (2015). [doi:10.1038/ncomms8545](http://www.nature.com/ncomms/2015/150707/ncomms8545/abs/ncomms8545.html) 
 
 ## Overlap between eQTL and epigenetic data from neutrophils
 The *blueprint* directory contains details of the analysis focused on overlap between eQTL identified in neutrophils 
