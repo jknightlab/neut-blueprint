@@ -1,4 +1,4 @@
-# Data analysis for *Genomic modulators of gene expression in human neutrophils*
+# Data analysis for *Genomic modulators of gene expression in human neutrophils* ![DOI][doi img]
 This repository contains code for some of the analyses carried out as part of the work that has been published as
 
 Vivek Naranbhai *et al.* **Genomic modulators of gene expression in human neutrophils**.  
@@ -13,3 +13,6 @@ and DNA methylation data as well as histone modifications obtained from the
 A STAT3 binding site identified during the ChIP-seq analysis as showing evidence of allele specific binding 
 was selected for validation. Details of the analysis of ddPCR data generated for this purpose are available
 in the *ddPCR* directory.
+
+[DOI]: https://zenodo.org/
+[doi img]: https://zenodo.org/badge/doi/10.5281/zenodo.19627.svg
